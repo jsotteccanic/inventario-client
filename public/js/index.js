@@ -20,3 +20,16 @@ fetch('https://us-central1-inventario-app-aa28e.cloudfunctions.net/helloWorld', 
         document.getElementById("testService").innerHTML = x;
     })
     .catch(err => console.log(err));
+
+// Add a new document in collection "cities"
+db.collection("cities").doc("LA").set({
+    name: "Los Angeles",
+    state: "CA",
+    country: "USA"
+})
+    .then(function () {
+        console.log("Document successfully written!");
+    })
+    .catch(function (error) {
+        console.error("Error writing document: ", error);
+    });
