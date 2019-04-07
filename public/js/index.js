@@ -15,7 +15,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 function cerrarSession() {
     firebase.auth().signOut().then(function () {
-        window.location.href = "./login.html";
+        window.location.href = "./index.html";
     }, function (error) {
         console.error('Sign Out Error', error);
     });
@@ -207,7 +207,7 @@ $('#tipoDocumento')
     });
 
 
-    // #############
+// #############
 function registrarFirebase(colecion, data) {
     db.collection(colecion).add(data)
         .then(function () {
@@ -219,3 +219,41 @@ function registrarFirebase(colecion, data) {
             $(`#${colecion}`).form('clear')
         });
 }
+
+function obtenerDatosFirebase(e) {
+    e.preventDefault();
+    let opt = document.getElementById("selectColeccion");
+    let thead = document.getElementById("headResult");
+    thead.innerHTML="";
+    let tbody = document.getElementById("bodyResutl");
+    tbody.innerHTML="";
+    let result = [];
+    db.collection(opt.value).get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            result.push(doc.data());
+        });
+        if (result.length > 0) {
+            Object.keys(result[0]).forEach(x => {
+                let th = document.createElement("th");
+                th.innerText = x;
+                thead.appendChild(th);
+            });
+        }
+        result.forEach(x => {
+            let tr = document.createElement("tr");
+            for(valor in x){
+                let td = document.createElement("td");
+                td.innerText = x[valor];
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        });
+    });
+}
+
+// Object.keys(doc.data()).forEach(x => {
+//     let th = document.createElement('th');
+//     th.innerHTML = x;
+//     thead.appendChild(th);
+// });
+// console.log(doc.id, " => ", doc.data());

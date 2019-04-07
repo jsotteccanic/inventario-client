@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/semantic.min.js"></script>
+    <link rel="stylesheet" href="./css/semantic.min.css">
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+</head>
+
+<body>
+    <div class="ui container">
+        <div class="ui secondary  menu">
+            <a class="active item">
+                <img class="ui centered mini image" src="./img/logo.svg" width="40">
+            </a>
+            <a class="item" href="./admin.html">
+                Registrar datos
+            </a>
+            <a class="item">
+                Consultar Registros
+            </a>
+            <a class="item">
+                Reportes
+            </a>
+            <div class="right menu">
+                <a class="ui item" onclick="cerrarSession()">Salir</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui container">
+        <div class="ui divider"></div>
+        <form class="ui form">
+            <div class="fields">
+                <div class="field">
+                    <label>Consultar:</label>
+                    <select id="selectColeccion" class="ui fluid dropdown">
+                        <option value="">Selecciona</option>
+                        <option value="almacen">almacen</option>
+                        <option value="laboratorio">laboratorio</option>
+                        <option value="principioActivo">principioActivo</option>
+                        <option value="proveedor">proveedor</option>
+                        <option value="tipoDocumento">tipoDocumento</option>
+                    </select>
+                </div>
+            </div>
+            <div class="ui primary submit button" onclick="obtenerDatosFirebase(event)">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
+        <div class="ui divider"></div>
+        <table class="ui celled table">
+            <thead id="headResult">
+            </thead>
+            <tbody id="bodyResutl">
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyDjB0rloHhxOETCSI66UbXuPD5remVcKT0",
+        authDomain: "inventario-app-aa28e.firebaseapp.com",
+        databaseURL: "https://inventario-app-aa28e.firebaseio.com",
+        projectId: "inventario-app-aa28e",
+        storageBucket: "inventario-app-aa28e.appspot.com",
+        messagingSenderId: "1028436033384"
+    };
+    firebase.initializeApp(config);
+</script>
+<script src="./js/index.js"></script>
+
+</html>
