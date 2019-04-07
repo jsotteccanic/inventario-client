@@ -6,23 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inventario || APP</title>
 
-  <!-- update the version number as needed -->
-  <script defer src="/__/firebase/5.9.2/firebase-app.js"></script>
-  <!-- include only the Firebase features as you need -->
-  <script defer src="/__/firebase/5.9.2/firebase-auth.js"></script>
-  <script defer src="/__/firebase/5.9.2/firebase-database.js"></script>
-  <script defer src="/__/firebase/5.9.2/firebase-messaging.js"></script>
-  <script defer src="/__/firebase/5.9.2/firebase-storage.js"></script>
-  <!-- initialize the SDK after all desired features are loaded -->
-  <script defer src="/__/firebase/init.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
   <!-- <link rel="stylesheet" href="./css/index.css"> -->
 
   <!-- Semantic -->
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/semantic.min.css">
+  <script src="./js/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./css/semantic.min.css">
   <link rel="stylesheet" href="./js/semantic.min.js">
-  <style type="text/css">
+  <!-- <style type="text/css">
     body {
       background-color: #FFFFFF;
       height: 70%;
@@ -44,11 +35,43 @@
       margin: 20em 0em 0em;
       padding: 2em 0em;
     }
+  </style> -->
+  <style>
+    @media (min-height: 320px) {
+      .ui.footer.form-page {
+        /* Increased specificity for SO snippet priority */
+        position: absolute;
+        bottom: 0;
+        width: 82%;
+        left: 9%;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="ui fixed inverted menu">
+  <div class="ui container">
+    <div class="ui secondary pointing menu">
+      <a class="active item">
+        <img class="ui centered mini image" src="./img/logo.svg" width="40">
+      </a>
+      <a class="item">
+        Inicio
+      </a>
+      <a class="item" href="./login.html">Iniciar Sesión</a>
+    </div>
+    <div class="ui raised very padded text container segment">
+      <h2 class="ui header">Sistema de inventario</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, asperiores. Laboriosam iusto voluptatum minima
+        atque a quos, pariatur iure repellendus quae provident modi non? Fugiat nihil assumenda doloribus consequuntur
+        excepturi.</p>
+    </div>
+  </div>
+  <div class="ui inverted vertical footer segment form-page">
+    <img src="./img/BinaryLab-Logo.png" class="ui tiny image centered" alt="">
+  </div>
+  </div>
+  <!-- <div class="ui fixed inverted menu">
     <div class="ui container">
       <a href="#" class="header item">
           <img class="ui centered mini image" src="./img/logo.svg" width="40" >
@@ -56,13 +79,13 @@
       </a>
       <a href="#" class="item">Inicio</a>
       <a class="item" href="./login.html">Iniciar Sesión</a>
-      <!-- <div class="ui simple dropdown item">
+      <div class="ui simple dropdown item">
         Menu <i class="dropdown icon"></i>
         <div class="menu">
           <a class="item" href="./login.html">Iniciar Sesión</a>
           <a class="item" href="#">Registrarse</a>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
   <div class="ui main text container">
@@ -79,7 +102,7 @@
   <div class="ui inverted vertical footer segment">
     <img src="./img/BinaryLab-Logo.png" class="ui centered tiny image">
   </div>
-  
+   -->
 </body>
 
 </html>

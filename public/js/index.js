@@ -4,7 +4,7 @@
 //     .then(x => {
 //         document.getElementById("testService").innerHTML = x;
 //     })
-//     .catch(err => console.log(err));
+//     .catch(err => alert(err));
 var db = firebase.firestore();
 
 firebase.auth().onAuthStateChanged(function (user) {
@@ -22,7 +22,7 @@ function cerrarSession() {
 }
 
 // VALIDACIONES DE FORMULARIOS
-$('#RegistrarPresentacion')
+$('#presentacion')
     .form({
         fields: {
             codPresentacion: {
@@ -211,7 +211,7 @@ $('#tipoDocumento')
 function registrarFirebase(colecion, data) {
     db.collection(colecion).add(data)
         .then(function () {
-            console.log("Document successfully written!");
+            alert("Document successfully written!");
             $(`#${colecion}`).form('clear')
         })
         .catch(function (error) {
