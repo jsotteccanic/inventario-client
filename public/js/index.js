@@ -1,35 +1,221 @@
-fetch('https://us-central1-inventario-app-aa28e.cloudfunctions.net/helloWorld')
-    .then(x => x.text())
-    .then(x => {
-        document.getElementById("testService").innerHTML = x;
-    })
-    .catch(err => console.log(err));
+// // Ejemplo de conexión
+// fetch('https://us-central1-inventario-app-aa28e.cloudfunctions.net/helloWorld')
+//     .then(x => x.text())
+//     .then(x => {
+//         document.getElementById("testService").innerHTML = x;
+//     })
+//     .catch(err => console.log(err));
+var db = firebase.firestore();
 
-data = {
-    msj: "Esto es post"
-}
-fetch('https://us-central1-inventario-app-aa28e.cloudfunctions.net/helloWorld', {
-    method: 'POST', // or 'PUT'
-    body: JSON.stringify(data), // data can be `string` or {object}!
-    headers: {
-        'Content-Type': 'application/json'
+firebase.auth().onAuthStateChanged(function (user) {
+    if (!user) {
+        window.location.href = "./login.html";
     }
-})
-    .then(x => x.text())
-    .then(x => {
-        document.getElementById("testService").innerHTML = x;
-    })
-    .catch(err => console.log(err));
+});
 
-// Add a new document in collection "cities"
-db.collection("cities").doc("LA").set({
-    name: "Los Angeles",
-    state: "CA",
-    country: "USA"
-})
-    .then(function () {
-        console.log("Document successfully written!");
-    })
-    .catch(function (error) {
-        console.error("Error writing document: ", error);
+function cerrarSession() {
+    firebase.auth().signOut().then(function () {
+        window.location.href = "./login.html";
+    }, function (error) {
+        console.error('Sign Out Error', error);
     });
+}
+
+// VALIDACIONES DE FORMULARIOS
+$('#RegistrarPresentacion')
+    .form({
+        fields: {
+            codPresentacion: {
+                identifier: 'codPresentacion',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un código'
+                    }
+                ]
+            },
+            nombrePresentacion: {
+                identifier: 'nombrePresentacion',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un nombre'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            registrarFirebase(event.target.id, inputs);
+        }
+    });
+$('#almacen')
+    .form({
+        fields: {
+            codPresentacion: {
+                identifier: 'codigoAlmacen',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un código'
+                    }
+                ]
+            },
+            nombrePresentacion: {
+                identifier: 'nombreAlmacen',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un nombre'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            registrarFirebase(event.target.id, inputs);
+        }
+    });
+$('#laboratorio')
+    .form({
+        fields: {
+            codPresentacion: {
+                identifier: 'codigoLaboratorio',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un código'
+                    }
+                ]
+            },
+            nombrePresentacion: {
+                identifier: 'nombreLaboratorio',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un nombre'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            registrarFirebase(event.target.id, inputs);
+        }
+    });
+// PRINCIPIO ACTIVO 
+$('#principioActivo')
+    .form({
+        fields: {
+            codPresentacion: {
+                identifier: 'codigoPrincipioActivo',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un código'
+                    }
+                ]
+            },
+            nombrePresentacion: {
+                identifier: 'nombrePrincipioActivo',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un nombre'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            registrarFirebase(event.target.id, inputs);
+        }
+    });
+// REGISTRO DE PROVEEDORES
+$('#proveedor')
+    .form({
+        fields: {
+            ruc: {
+                identifier: 'ruc',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un ruc'
+                    }
+                ]
+            },
+            nombretipoDocumento: {
+                identifier: 'nombretipoDocumento',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un nombre de la razón social'
+                    }
+                ]
+            },
+            direccion: {
+                identifier: 'direccion',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa una dirección'
+                    }
+                ]
+            },
+            telefono: {
+                identifier: 'telefono',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un número de teléfono'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            registrarFirebase(event.target.id, inputs);
+        }
+    });
+// TIPO DE DOCUMENTO
+$('#tipoDocumento')
+    .form({
+        fields: {
+            codigotipoDocumento: {
+                identifier: 'codigotipoDocumento',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa el codigo de documento'
+                    }
+                ]
+            },
+            nombretipoDocumento: {
+                identifier: 'nombretipoDocumento',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa el nombre del documento'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            registrarFirebase(event.target.id, inputs);
+        }
+    });
+
+
+    // #############
+function registrarFirebase(colecion, data) {
+    db.collection(colecion).add(data)
+        .then(function () {
+            console.log("Document successfully written!");
+            $(`#${colecion}`).form('clear')
+        })
+        .catch(function (error) {
+            console.error("Error writing document: ", error);
+            $(`#${colecion}`).form('clear')
+        });
+}

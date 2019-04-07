@@ -6,126 +6,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/semantic.min.js"></script>
     <link rel="stylesheet" href="./css/semantic.min.css">
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
 </head>
 
 <body>
     <div class="ui container">
-        <div class="ui divider"></div>
-        <h3 class="ui header">Registro de Almacenes</h3>
-        <div class="ui form">
-            <div class="fields">
-                <div class="field">
-                    <label>Nombre Almacen</label>
-                    <input type="text" placeholder="Nombre Almacen">
+        <div class="ui secondary  menu">
+            <a class="active item">
+                Home
+            </a>
+            <a class="item">
+                Menu1
+            </a>
+            <a class="item">
+                Menu2
+            </a>
+            <div class="right menu">
+                <div class="item">
+                    <div class="ui icon input">
+                        <input type="text" placeholder="Search...">
+                        <i class="search link icon"></i>
+                    </div>
                 </div>
-                <div class="field">
-                    <label>Ubicación</label>
-                    <input type="text" placeholder="Ubicación">
-                </div>
-                <div class="field">
-                    <label>Detalle</label>
-                    <textarea rows="2"></textarea>
-                </div>
+                <a class="ui item" onclick="cerrarSession()">Logout</a>
             </div>
         </div>
+    </div>
+
+    <div class="ui container">
         <div class="ui divider"></div>
-        <div class="ui divider"></div>
-        <h3 class="ui header">Registro de Almacenes</h3>
-        <div class="ui form">
+        <!-- Registro de presentacion de producto -->
+        <h3 class="ui header">Registro presentacion de producto</h3>
+        <form class="ui form" id="presentacion">
             <div class="fields">
                 <div class="field">
-                    <label>Nombre Almacen</label>
-                    <input type="text" placeholder="Nombre Almacen">
+                    <label>Codigo presentación</label>
+                    <input type="text" name="codPresentacion" id="codPresentacion" placeholder="Cod presentacion">
                 </div>
                 <div class="field">
-                    <label>Ubicación</label>
-                    <input type="text" placeholder="Ubicación">
-                </div>
-                <div class="field">
-                    <label>Detalle</label>
-                    <textarea rows="2"></textarea>
+                    <label>Nombre presentación</label>
+                    <input type="text" name="nombrePresentacion" id="nombrePresentacion" placeholder="Ingrese un nombre">
                 </div>
             </div>
-        </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
         <div class="ui divider"></div>
-        <div class="ui divider"></div>
-        <h3 class="ui header">Registro de Almacenes</h3>
-        <div class="ui form">
+        <!-- Registro de almacen -->
+        <h3 class="ui header">Registro de almacen</h3>
+        <form class="ui form" id="almacen">
             <div class="fields">
                 <div class="field">
-                    <label>Nombre Almacen</label>
-                    <input type="text" placeholder="Nombre Almacen">
+                    <label>Codigo almacén</label>
+                    <input type="text" name="codigoAlmacen" id="codigoAlmacen" placeholder="Codigo almacen">
                 </div>
                 <div class="field">
-                    <label>Ubicación</label>
-                    <input type="text" placeholder="Ubicación">
-                </div>
-                <div class="field">
-                    <label>Detalle</label>
-                    <textarea rows="2"></textarea>
+                    <label>Nombre almacén</label>
+                    <input type="text" name="nombreAlmacen" id="nombreAlmacen" placeholder="Nombre de almacen">
                 </div>
             </div>
-        </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
         <div class="ui divider"></div>
-        <div class="ui divider"></div>
-        <h3 class="ui header">Registro de Almacenes</h3>
-        <div class="ui form">
+        <!-- REGISTRAR LABORATORIO -->
+        <h3 class="ui header">Registro de Laboratorio</h3>
+        <form class="ui form" id="laboratorio">
             <div class="fields">
                 <div class="field">
-                    <label>Nombre Almacen</label>
-                    <input type="text" placeholder="Nombre Almacen">
+                    <label>Codigo de laboratorio</label>
+                    <input type="text" name="codigoLaboratorio" id="codigoLaboratorio" placeholder="Codigo Laboratorio">
                 </div>
                 <div class="field">
-                    <label>Ubicación</label>
-                    <input type="text" placeholder="Ubicación">
-                </div>
-                <div class="field">
-                    <label>Detalle</label>
-                    <textarea rows="2"></textarea>
+                    <label>Nombre de laboratorio</label>
+                    <input type="text" name="nombreLaboratorio" id="nombreLaboratorio" placeholder="Nombre de Laboratorio">
                 </div>
             </div>
-        </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
         <div class="ui divider"></div>
-        <div class="ui divider"></div>
-        <h3 class="ui header">Registro de Almacenes</h3>
-        <div class="ui form">
+        <!-- REGISTRAR PRINCIPIO ACTIVO -->
+        <h3 class="ui header">Registro del principio activo</h3>
+        <form class="ui form" id="principioActivo">
             <div class="fields">
                 <div class="field">
-                    <label>Nombre Almacen</label>
-                    <input type="text" placeholder="Nombre Almacen">
+                    <label>Codigo del principio activo</label>
+                    <input type="text" name="codigoPrincipioActivo" id="codigoPrincipioActivo" placeholder="Codigo PrincipioActivo">
                 </div>
                 <div class="field">
-                    <label>Ubicación</label>
-                    <input type="text" placeholder="Ubicación">
-                </div>
-                <div class="field">
-                    <label>Detalle</label>
-                    <textarea rows="2"></textarea>
+                    <label>Nombre del principio activo</label>
+                    <input type="text" name="nombrePrincipioActivo" id="nombrePrincipioActivo" placeholder="Nombre de PrincipioActivo">
                 </div>
             </div>
-        </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
         <div class="ui divider"></div>
-        <div class="ui divider"></div>
-        <h3 class="ui header">Registro de Almacenes</h3>
-        <div class="ui form">
+        <!-- REGISTRAR PROVEEDORES -->
+        <h3 class="ui header">Registro de proveedor</h3>
+        <form class="ui form" id="proveedor">
             <div class="fields">
                 <div class="field">
-                    <label>Nombre Almacen</label>
-                    <input type="text" placeholder="Nombre Almacen">
+                    <label>Ruc</label>
+                    <input type="text" name="ruc" id="ruc" placeholder="Ingresa el número de ruc">
                 </div>
                 <div class="field">
-                    <label>Ubicación</label>
-                    <input type="text" placeholder="Ubicación">
+                    <label>Nombre de razón social</label>
+                    <input type="text" name="razonSocial" id="razonSocial" placeholder="Razón social">
                 </div>
                 <div class="field">
-                    <label>Detalle</label>
-                    <textarea rows="2"></textarea>
+                    <label>Direccion</label>
+                    <input type="text" name="direccion" id="direccion" placeholder="Dirección">
+                </div>
+                <div class="field">
+                    <label>Telefono</label>
+                    <input type="text" name="telefono" id="telefono" placeholder="Telefono">
                 </div>
             </div>
-        </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
+        <div class="ui divider"></div>
+        <!-- REGISTRAR PRINCIPIO ACTIVO -->
+        <h3 class="ui header">Registro tipo de documento</h3>
+        <form class="ui form" id="tipoDocumento">
+            <div class="fields">
+                <div class="field">
+                    <label>Codigo de documento</label>
+                    <input type="text" name="codigotipoDocumento" id="codigotipoDocumento" placeholder="Codigo Documento">
+                </div>
+                <div class="field">
+                    <label>Nombre del documento</label>
+                    <input type="text" name="nombretipoDocumento" id="nombretipoDocumento" placeholder="Nombre de Documento">
+                </div>
+            </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
         <div class="ui divider"></div>
     </div>
 </body>
+<script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyDjB0rloHhxOETCSI66UbXuPD5remVcKT0",
+        authDomain: "inventario-app-aa28e.firebaseapp.com",
+        databaseURL: "https://inventario-app-aa28e.firebaseio.com",
+        projectId: "inventario-app-aa28e",
+        storageBucket: "inventario-app-aa28e.appspot.com",
+        messagingSenderId: "1028436033384"
+    };
+    firebase.initializeApp(config);
+</script>
+<script src="./js/index.js"></script>
 
 </html>

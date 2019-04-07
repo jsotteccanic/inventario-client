@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://semantic-ui.com/examples/login.html -->
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Standard Meta -->
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>Login Example - Semantic</title>
+  <link rel="stylesheet" href="./css/semantic.min.css">
+  <script src="./js/jquery-3.3.1.min.js"></script>
+  <script src="./js/semantic.min.js"></script>
+
+  <style type="text/css">
+    body {
+      background-color: #DADADA;
+    }
+
+    body>.grid {
+      height: 100%;
+    }
+
+    .image {
+      margin-top: -100px;
+    }
+
+    .column {
+      max-width: 450px;
+    }
+  </style>
+  <script>
+    $(document)
+      .ready(function () {
+        $('.ui.form')
+          .form({
+            fields: {
+              email: {
+                identifier: 'email',
+                rules: [
+                  {
+                    type: 'empty',
+                    prompt: 'Por ingresa tu correo electrónico'
+                  },
+                  {
+                    type: 'email',
+                    prompt: 'Por favor ingresa un correo valido'
+                  }
+                ]
+              },
+              password: {
+                identifier: 'password',
+                rules: [
+                  {
+                    type: 'empty',
+                    prompt: 'Por favor ingresa tu contraseña'
+                  },
+                  {
+                    type: 'length[4]',
+                    prompt: 'La contraseña no puede tener menos de 4 caracteres'
+                  }
+                ]
+              }
+            },
+            onSuccess: function (event, fields) {
+              event.preventDefault();
+              
+              firebase.auth().signInWithEmailAndPassword(fields.email, fields.password)
+              .then(x=>{
+                window.location.href = "./admin.html";
+              })
+              .catch(function (error) {
+                console.log("error",error.code,error.message);
+                alert("usuario y contraseña erronead");
+                
+              });              
+            }
+          })
+          ;
+      })
+      ;
+  </script>
+</head>
+
+<body>
+
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <h2 class="ui teal image header">
+        <img src="./img/logo.svg" class="image">
+        <div class="content">
+          Iniciar Session
+        </div>
+      </h2>
+      <form class="ui large form">
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="email" placeholder="Correo">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" placeholder="Contraseña">
+            </div>
+          </div>
+          <div class="ui fluid large teal submit button">Ingresar</div>
+        </div>
+
+        <div class="ui error message"></div>
+
+      </form>
+
+      <div class="ui message">
+        Nuevo? Solicita tus accesos a <a href="#">Servicios TI</a>
+      </div>
+    </div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDjB0rloHhxOETCSI66UbXuPD5remVcKT0",
+      authDomain: "inventario-app-aa28e.firebaseapp.com",
+      databaseURL: "https://inventario-app-aa28e.firebaseio.com",
+      projectId: "inventario-app-aa28e",
+      storageBucket: "inventario-app-aa28e.appspot.com",
+      messagingSenderId: "1028436033384"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+
+
+</body>
+
+</html>
