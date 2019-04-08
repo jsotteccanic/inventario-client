@@ -48,6 +48,8 @@
                         <option value="principioActivo">principioActivo</option>
                         <option value="proveedor">proveedor</option>
                         <option value="tipoDocumento">tipoDocumento</option>
+                        <option value="maestroDeArticulo">maestroDeArticulo</option>
+                        <option value="articulo">articulo</option>
                     </select>
                 </div>
             </div>
@@ -55,13 +57,16 @@
             <div class="ui error message"></div>
         </form>
         <div class="ui divider"></div>
-        <table class="ui celled table">
-            <thead id="headResult">
-            </thead>
-            <tbody id="bodyResutl">
-                
-            </tbody>
-        </table>
+        <div style="overflow-x: auto">
+            <table class="ui celled padded table">
+                <thead id="headResult">
+                </thead>
+                <tbody id="bodyResutl">
+
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>

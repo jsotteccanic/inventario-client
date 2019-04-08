@@ -13,50 +13,12 @@
   <script src="./js/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./css/semantic.min.css">
   <link rel="stylesheet" href="./js/semantic.min.js">
-  <!-- <style type="text/css">
-    body {
-      background-color: #FFFFFF;
-      height: 70%;
-    }
 
-    .ui.menu .item img.logo {
-      margin-right: 1.5em;
-    }
-
-    .main.container {
-      margin-top: 6em;
-    }
-
-    .wireframe {
-      margin-top: 2em;
-    }
-
-    .ui.footer.segment {
-      margin: 20em 0em 0em;
-      padding: 2em 0em;
-    }
-  </style> -->
-  <style>
-    @media (min-height: 320px) {
-      .ui.footer.form-page {
-        /* Increased specificity for SO snippet priority */
-        position: absolute;
-        bottom: 0;
-        width: 82%;
-        left: 9%;
-      }
-    }
-
-    footer img {
-      margin: 0;
-      padding: 0;
-    }
-  </style>
 </head>
 
 <body>
-  <div class="ui container">
-    <div class="ui secondary pointing menu">
+  <div class="ui grid container">
+    <div class="ui row secondary pointing menu">
       <a class="active item">
         <img class="ui centered mini image" src="./img/logo.svg">
       </a>
@@ -65,7 +27,7 @@
       </a>
       <a class="item" href="./login.html">Iniciar Sesión</a>
     </div>
-    <div class="ui raised very padded text container segment">
+    <div class="ui grid raised very padded text container segment">
       <h2 class="ui header">Sistema de inventario</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, asperiores. Laboriosam iusto voluptatum minima
         atque a quos, pariatur iure repellendus quae provident modi non? Fugiat nihil assumenda doloribus consequuntur
@@ -76,14 +38,15 @@
           <div class="header">
             Usario de prueba
           </div>
-          Usuario : demo@demo.com <br />
-          Password: demodemo
+          <p> Usuario : demo@demo.com</p>
+          <p>Password: demodemo</p>
         </div>
       </div>
     </div>
 
   </div>
-  <footer class="ui inverted footer  form-page">
+
+  <footer class="ui row inverted footer  form-page" style="margin-top:10%; margin-left:9%; width:82%">
     <hr>
     <!-- <span>Desarrollado por:</span> -->
     <img class="ui middle aligned tiny image" src="./img/BinaryLab-Logo.png">

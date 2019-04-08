@@ -153,6 +153,181 @@
             <div class="ui error message"></div>
         </form>
         <div class="ui divider"></div>
+        <!-- REGISTRAR MESTRO DE ARTICULO -->
+        <h3 class="ui header">Registro Maestro de articulo</h3>
+        <button onclick="cargarDatosFormularioArticulo()">Cargar datos al formulario</button>
+        <form class="ui form" id="maestroDeArticulo">
+            <div class="fields">
+                <div class="field">
+                    <label>Codigo de artículo</label>
+                    <input type="text" name="_codigoArticulo" id="_codigoArticulo" placeholder="Codigo artículo">
+                </div>
+                <div class="field">
+                    <label>Nombre del artículo</label>
+                    <input type="text" name="_nombreArticulo" id="_nombreArticulo" placeholder="Nombre de artículo">
+                </div>
+                <div class="field">
+                    <label>Multiplo</label>
+                    <input type="text" name="_multiplo" id="_multiplo" placeholder="Multiplo">
+                </div>
+                <div class="field">
+                    <label>Presentación</label>
+                    <select name="_presentacion" id="_presentacion" placeholder="_Presentacion">
+
+                    </select>
+                </div>
+            </div>
+            <div class="fields">
+                <div class="field">
+                    <label>Costo de compra</label>
+                    <input type="text" name="_costoCompra" id="_costoCompra" placeholder="Costo">
+                </div>
+                <div class="field">
+                    <label>Principio activo</label>
+                    <select name="_principioActivo" id="_principioActivo" placeholder="_principioActivo">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Stock</label>
+                    <input type="text" name="_stock" id="_stock" placeholder="Cant. stock">
+                </div>
+                <div class="field">
+                    <label>Laboratorio</label>
+                    <select name="_laboratorio" id="_laboratorio" placeholder="Nombre laboratorio">
+
+                    </select>
+                </div>
+            </div>
+            <div class="fields">
+                <div class="field">
+                    <label>Sub clase</label>
+                    <select name="_subClase" id="_subClase" placeholder="Nombre sub clase">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Clase</label>
+                    <select name="_clase" id="_clase" placeholder="Nombre clase">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Lote</label>
+                    <input type="checkbox" name="_lote" id="_lote" placeholder="Ingrese el lote">
+                </div>
+                <div class="field">
+                    <label>Fecha de vencimiento</label>
+                    <input type="date" name="_fechaVencimiento" id="_fechaVencimiento">
+                </div>
+            </div>
+            <div class="fields">
+                <div class="field">
+                    <label>Código de barra</label>
+                    <input type="text" name="_codigoBarra" id="_codigoBarra">
+                </div>
+                <div class="field">
+                    <label>Igv</label>
+                    <input type="text" name="_igv" id="_igv">
+                </div>
+                <div class="field">
+                    <label>VVF</label>
+                    <input type="text" name="_vvf" id="_vvf">
+                </div>
+                <div class="field">
+                    <label>PVF</label>
+                    <input type="text" name="_pvf" id="_pvf">
+                </div>
+            </div>
+            <div class="fields">
+                <div class="field">
+                    <label>PVP</label>
+                    <input type="text" name="_pvp" id="_pvp">
+                </div>
+                <div class="field">
+                    <label>Incremento</label>
+                    <input type="text" name="_incremento" id="_incremento">
+                </div>
+            </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
+        <div class="ui divider"></div>
+        <!-- REGISTRAR TIPO DE SALIDA -->
+        <h3 class="ui header">Registro tipo de salida</h3>
+        <form class="ui form" id="tipoSalida">
+            <div class="fields">
+                <div class="field">
+                    <label>Nombre de tipo de salida</label>
+                    <input type="text" name="nombreTipoSalida" id="nombreTipoSalida" placeholder="Nombre tipo salida">
+                </div>
+                <div class="field">
+                    <label>Número de correlativo</label>
+                    <input type="number" name="correlativoSalida" id="correlativoSalida">
+                </div>
+            </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
+        <div class="ui divider"></div>
+        <!-- REGISTRAR TIPO DE ENTRADA -->
+        <h3 class="ui header">Registro tipo de ingreso</h3>
+        <form class="ui form" id="tipoIngreso">
+            <div class="fields">
+                <div class="field">
+                    <label>Nombre de tipo de ingreso</label>
+                    <input type="text" name="nombreTipoIngreso" id="nombreTipoIngreso" placeholder="Nombre tipo ingreso">
+                </div>
+                <div class="field">
+                    <label>Número de correlativo</label>
+                    <input type="number" name="correlativoIngreso" id="correlativoIngreso">
+                </div>
+            </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
+        <div class="ui divider"></div>
+        <!-- REGISTRAR ARTICULO -->
+        <h3 class="ui header">Registro de articulo</h3>
+        <form class="ui form" id="articulo">
+            <div class="fields">
+                <div class="field">
+                    <label>Proveedor</label>
+                    <select name="_proveedor" id="_proveedor">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Tipo de documento</label>
+                    <select name="_tipoDocumento" id="_tipoDocumento">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Fecha de registro</label>
+                    <input type="date" name="_fechaRegistroArticulo" id="_fechaRegistroArticulo">
+                </div>
+                <div class="field">
+                    <label>Número de documento</label>
+                    <input type="number" name="_numeroDocumento" id="_numeroDocumento">
+                </div>
+                <div class="field">
+                    <label>Seleccione almacen</label>
+                    <select name="_almacen" id="_almacen">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Seleccione producto</label>
+                    <select name="_producto" id="_producto">
+
+                    </select>
+                </div>
+            </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
+        <div class="ui divider"></div>
     </div>
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
