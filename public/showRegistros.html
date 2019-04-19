@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -20,15 +20,23 @@
             <a class="active item">
                 <img class="ui centered mini image" src="./img/logo.svg" width="40">
             </a>
-            <a class="item" href="./admin.html">
-                Registrar datos
-            </a>
-            <a class="item">
-                Consultar Registros
-            </a>
-            <a class="item">
-                Reportes
-            </a>
+
+            <div class="ui dropdown item">
+                Opciones <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="./admin.html">
+                        Registrar datos
+                    </a>
+                    <a class="item">
+                        Consultar Registros
+                    </a>
+                    <a class="item">
+                        Reportes
+                    </a>
+                </div>
+            </div>
+
+
             <div class="right menu">
                 <a class="ui item" onclick="cerrarSession()">Salir</a>
             </div>

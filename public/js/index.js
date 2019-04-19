@@ -16,11 +16,12 @@ let _laboratorio = document.getElementById("_laboratorio");
 let _subClase = document.getElementById("_subClase");
 let _clase = document.getElementById("_clase");
 
-firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) {
-        window.location.href = "./index.html";
-    }
-});
+////Reactivar - validación de autenticación
+// firebase.auth().onAuthStateChanged(function (user) {
+//     if (!user) {
+//         window.location.href = "./index.html";
+//     }
+// });
 
 function cerrarSession() {
     firebase.auth().signOut().then(function () {
@@ -186,6 +187,14 @@ $('#proveedor')
             registrarFirebase(event.target.id, inputs);
         }
     });
+
+//Agregando regla personalizada
+let min = document.getElementById("_minimo");
+$.fn.form.settings.rules.minMaxValidate = function (a=0, b) {
+    let minimo = parseInt(min.value);
+    return (minimo> a)?false:true;
+};
+
 // MAESTRO DE ARTICULO
 $('#maestroDeArticulo')
     .form({
@@ -295,6 +304,28 @@ $('#maestroDeArticulo')
                     {
                         type: 'empty',
                         prompt: 'Ingresa la fecha'
+                    }
+                ]
+            },
+            _minimo: {
+                identifier: '_minimo',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un valor'
+                    }
+                ]
+            },
+            _maximo: {
+                identifier: ['_maximo','_minimo'],
+                rules: [
+                    // {
+                    //     type: 'empty',
+                    //     prompt: 'Ingresa un valor'
+                    // },
+                    {
+                        type: 'minMaxValidate',
+                        prompt: 'El valor máximo no puede ser menos que el mínimo'
                     }
                 ]
             },
@@ -444,6 +475,14 @@ $('#tipoIngreso')
         }
     });
 // REGISTRO DE ARTICULO
+
+// Reglas personalizada
+$.fn.form.settings.rules.fechaActual = function (a, b) {
+    let d1 = new Date(a);
+    let d2 = new Date();
+    return (d1 >= d2)
+};
+
 $('#articulo')
     .form({
         fields: {
@@ -498,6 +537,46 @@ $('#articulo')
                     {
                         type: 'empty',
                         prompt: 'Seleccione un producto'
+                    }
+                ]
+            },
+            _costo: {
+                identifier: '_costo',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingrese el costo'
+                    }
+                ]
+            },
+            _cantidad: {
+                identifier: '_cantidad',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingrese la cantidad'
+                    }
+                ]
+            },
+            _lote: {
+                identifier: '_lote',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa el lote'
+                    }
+                ]
+            },
+            _fechaVencimiento: {
+                identifier: '_fechaVencimiento',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Selecciona la fecha de vencimiento'
+                    },
+                    {
+                        type: 'fechaActual',
+                        prompt: 'No puede ingresar una fecha menor a la actual'
                     }
                 ]
             }
@@ -669,3 +748,5 @@ function getDataSubClase() {
 // function getDataClase() {
 
 // }
+
+$('.ui.dropdown').dropdown();
