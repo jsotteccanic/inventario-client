@@ -12,9 +12,13 @@ let opt = document.getElementById("selectColeccion");
 // registro de datos formulario de maestro de articulo
 let _presentacion = document.getElementById("_presentacion");
 let _principioActivo = document.getElementById("_principioActivo");
+let _proveedor = document.getElementById("_proveedor");
 let _laboratorio = document.getElementById("_laboratorio");
 let _subClase = document.getElementById("_subClase");
 let _clase = document.getElementById("_clase");
+let _tipoDocumento = document.getElementById("_tipoDocumento");
+let _almacen = document.getElementById("_almacen");
+let _producto = document.getElementById("_producto");
 
 ////Reactivar - validación de autenticación
 // firebase.auth().onAuthStateChanged(function (user) {
@@ -190,9 +194,9 @@ $('#proveedor')
 
 //Agregando regla personalizada
 let min = document.getElementById("_minimo");
-$.fn.form.settings.rules.minMaxValidate = function (a=0, b) {
+$.fn.form.settings.rules.minMaxValidate = function (a = 0, b) {
     let minimo = parseInt(min.value);
-    return (minimo> a)?false:true;
+    return (minimo > a) ? false : true;
 };
 
 // MAESTRO DE ARTICULO
@@ -317,7 +321,7 @@ $('#maestroDeArticulo')
                 ]
             },
             _maximo: {
-                identifier: ['_maximo','_minimo'],
+                identifier: ['_maximo', '_minimo'],
                 rules: [
                     // {
                     //     type: 'empty',
@@ -584,6 +588,98 @@ $('#articulo')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            actualizarCantidadMaestroArticulos(event.target.id, inputs);
+        }
+    });
+// AJUSTE DE MERCANCIA
+$('#ajusteIngreso')
+    .form({
+        fields: {
+            _tipoDeIngreso: {
+                identifier: '_tipoDeIngreso',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa el nombre del tipo de ingreso'
+                    }
+                ]
+            },
+            _proveedorMercancia: {
+                identifier: '_proveedorMercancia',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Selecciona una proveedor'
+                    }
+                ]
+            },
+            _tipoDocumentoMercancia: {
+                identifier: '_tipoDocumentoMercancia',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Selecciona un tipo de documento'
+                    }
+                ]
+            },
+            _numeroDocumentoMercancia: {
+                identifier: '_numeroDocumentoMercancia',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa el número de documento'
+                    }
+                ]
+            },
+            _almacenDocumentoMercancia: {
+                identifier: '_almacenDocumentoMercancia',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un almacen'
+                    }
+                ]
+            },
+            _articuloDocumentoMercancia: {
+                identifier: '_articuloDocumentoMercancia',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un cod articulo'
+                    }
+                ]
+            },
+            _loteDocumentoMercancia: {
+                identifier: '_loteDocumentoMercancia',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Selecciona un lote'
+                    }
+                ]
+            },
+            _cantidadDocumentoMercancia: {
+                identifier: '_cantidadDocumentoMercancia',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Cantidad de documento'
+                    }
+                ]
+            },
+            _correlativoDocumentoMercancia: {
+                identifier: '_correlativoDocumentoMercancia',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un correlativo'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            registrarFirebase(event.target.id, inputs);
         }
     });
 // Funciones
@@ -666,12 +762,8 @@ function cargarDatosFormularioArticulo() {
     getDataSubClase()
     //     getDataClase()
 }
-// _presentacion
-// _principioActivo
-// _laboratorio
-// _subClase
-// _clase
 
+// grupo de datos para el formulario maestro articulo
 function getDataPresentacion() {
     db.collection("presentacion").get().then(function (querySnapshot) {
         _presentacion.innerHTML = "";
@@ -745,8 +837,102 @@ function getDataSubClase() {
         });
     });
 }
-// function getDataClase() {
-
-// }
 
 $('.ui.dropdown').dropdown();
+
+function cargarDatosFormularioRegistroMercancia() {
+    getDataProveedor();
+    getDataTipoDocumento();
+    getDataAlmacen();
+    getProdutos();
+}
+
+function getDataProveedor() {
+    db.collection("proveedor").get().then(function (querySnapshot) {
+        _proveedor.innerHTML = "";
+        let data = [{ direccion: "", razonSocial: "Seleccione", ruc: "", telefono: "" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.ruc;
+            opt.innerText = x.razonSocial;
+            _proveedor.appendChild(opt)
+        });
+    });
+}
+function getDataTipoDocumento() {
+    db.collection("tipoDocumento").get().then(function (querySnapshot) {
+        _tipoDocumento.innerHTML = "";
+        let data = [{ codigotipoDocumento: "", nombretipoDocumento: "Seleccione" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.codigotipoDocumento;
+            opt.innerText = x.nombretipoDocumento;
+            _tipoDocumento.appendChild(opt)
+        });
+    });
+}
+function getDataAlmacen() {
+    db.collection("almacen").get().then(function (querySnapshot) {
+        _almacen.innerHTML = "";
+        let data = [{ codigoAlmacen: "", nombreAlmacen: "Seleccione" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.codigoAlmacen;
+            opt.innerText = x.nombreAlmacen;
+            _almacen.appendChild(opt)
+        });
+    });
+}
+function getProdutos() {
+    db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+        _producto.innerHTML = "";
+        let data = [{ _codigoArticulo: "", _nombreArticulo: "Seleccione", }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x._codigoArticulo;
+            opt.innerText = x._nombreArticulo;
+            opt.dataset.precio = x._costoCompra;
+            _producto.appendChild(opt)
+        });
+    });
+}
+function precioActualProducto(e){
+    _costo.value = e.target.options[e.target.selectedIndex].dataset.precio;
+}
+function actualizarCantidadMaestroArticulos(coleccion, data) {
+    db.collection("maestroDeArticulo").where("_codigoArticulo", "==", data._producto).get().then(function (querySnapshot) {
+
+        let doc = [];
+        let updateObj = {};
+        let id = null;
+        querySnapshot.forEach(function (item) {
+            id = item.id;
+            doc.push(item.data());
+        });
+        //  updateObj._producto =  (doc[0]._producto == data._producto)? data._producto:doc[0]._cantidad;
+        updateObj._stock = parseFloat(doc[0]._stock) + parseFloat(data._cantidad);
+        updateObj._costoCompra = (doc[0]._costoCompra !== data._costo) ? data._costo : doc[0]._costoCompra;
+        
+        // Actualizando manestro
+        db.collection("maestroDeArticulo").doc(id).update(updateObj)
+            .then(function () {
+                console.log("Document successfully updated!");
+            })
+            .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+    });
+}

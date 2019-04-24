@@ -59,7 +59,8 @@
                 </div>
                 <div class="field">
                     <label>Nombre presentación</label>
-                    <input type="text" name="nombrePresentacion" id="nombrePresentacion" placeholder="Ingrese un nombre">
+                    <input type="text" name="nombrePresentacion" id="nombrePresentacion"
+                        placeholder="Ingrese un nombre">
                 </div>
             </div>
             <div class="ui primary submit button">REGISTRAR</div>
@@ -93,7 +94,8 @@
                 </div>
                 <div class="field">
                     <label>Nombre de laboratorio</label>
-                    <input type="text" name="nombreLaboratorio" id="nombreLaboratorio" placeholder="Nombre de Laboratorio">
+                    <input type="text" name="nombreLaboratorio" id="nombreLaboratorio"
+                        placeholder="Nombre de Laboratorio">
                 </div>
             </div>
             <div class="ui primary submit button">REGISTRAR</div>
@@ -106,11 +108,13 @@
             <div class="fields">
                 <div class="field">
                     <label>Codigo del principio activo</label>
-                    <input type="text" name="codigoPrincipioActivo" id="codigoPrincipioActivo" placeholder="Codigo PrincipioActivo">
+                    <input type="text" name="codigoPrincipioActivo" id="codigoPrincipioActivo"
+                        placeholder="Codigo PrincipioActivo">
                 </div>
                 <div class="field">
                     <label>Nombre del principio activo</label>
-                    <input type="text" name="nombrePrincipioActivo" id="nombrePrincipioActivo" placeholder="Nombre de PrincipioActivo">
+                    <input type="text" name="nombrePrincipioActivo" id="nombrePrincipioActivo"
+                        placeholder="Nombre de PrincipioActivo">
                 </div>
             </div>
             <div class="ui primary submit button">REGISTRAR</div>
@@ -148,11 +152,13 @@
             <div class="fields">
                 <div class="field">
                     <label>Codigo de documento</label>
-                    <input type="text" name="codigotipoDocumento" id="codigotipoDocumento" placeholder="Codigo Documento">
+                    <input type="text" name="codigotipoDocumento" id="codigotipoDocumento"
+                        placeholder="Codigo Documento">
                 </div>
                 <div class="field">
                     <label>Nombre del documento</label>
-                    <input type="text" name="nombretipoDocumento" id="nombretipoDocumento" placeholder="Nombre de Documento">
+                    <input type="text" name="nombretipoDocumento" id="nombretipoDocumento"
+                        placeholder="Nombre de Documento">
                 </div>
             </div>
             <div class="ui primary submit button">REGISTRAR</div>
@@ -224,10 +230,10 @@
                 </div>
 
                 <!-- oBSERVACIÓN -->
-                <!-- <div class="field">
+                <div class="field">
                     <label>Fecha de vencimiento</label>
-                    <input type="date" name="_fechaVencimiento" id="_fechaVencimiento">
-                </div> -->
+                    <input type="checkbox" name="_fechaVencimiento" id="_fechaVencimiento">
+                </div>
                 <!-- cambio minimo maximo -->
                 <div class="field">
                     <label>Minimo</label>
@@ -293,7 +299,8 @@
             <div class="fields">
                 <div class="field">
                     <label>Nombre de tipo de ingreso</label>
-                    <input type="text" name="nombreTipoIngreso" id="nombreTipoIngreso" placeholder="Nombre tipo ingreso">
+                    <input type="text" name="nombreTipoIngreso" id="nombreTipoIngreso"
+                        placeholder="Nombre tipo ingreso">
                 </div>
                 <div class="field">
                     <label>Número de correlativo</label>
@@ -306,6 +313,7 @@
         <div class="ui divider"></div>
         <!-- REGISTRAR ARTICULO -->
         <h3 class="ui header">Registro de mercancia (articulo)</h3>
+        <button onclick="cargarDatosFormularioRegistroMercancia()">getData Mercancía</button>
         <form class="ui form" id="articulo">
             <div class="fields">
                 <div class="field">
@@ -334,14 +342,15 @@
 
                     </select>
                 </div>
+
+            </div>
+            <div class="fields">
                 <div class="field">
                     <label>Seleccione producto</label>
-                    <select name="_producto" id="_producto">
+                    <select name="_producto" id="_producto" onchange="precioActualProducto(event)">
 
                     </select>
                 </div>
-            </div>
-            <div class="fields">
                 <div class="field">
                     <label>Costo</label>
                     <input type="text" name="_costo" id="_costo">
@@ -358,6 +367,60 @@
                     <label>Fecha de vencimiento</label>
                     <input type="date" name="_fechaVencimiento" id="_fechaVencimiento">
                 </div>
+            </div>
+            <div class="ui primary submit button">REGISTRAR</div>
+            <div class="ui error message"></div>
+        </form>
+        <div class="ui divider"></div>
+        <!-- PROCESO AJUSTE DE MERCANCÍA -->
+        <h3 class="ui header">Ajuste de mercancía</h3>
+        <form class="ui form" id="ajusteIngreso">
+            <div class="fields">
+                <div class="field">
+                    <label>Tipo de ingreso</label>
+                    <select name="_tipoDeIngreso" id="_tipoDeIngreso">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Proveedor</label>
+                    <select name="_proveedorMercancia" id="_proveedorMercancia">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Tipo de documento</label>
+                    <select name="_tipoDocumentoMercancia" id="_tipoDocumentoMercancia">
+
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Número de doc</label>
+                    <input type="text" name="_numeroDocumentoMercancia" id="_numeroDocumentoMercancia">
+                </div>
+                <div class="field">
+                        <label>Correlativo</label>
+                        <input type="number" name="_correlativoDocumentoMercancia" id="_correlativoDocumentoMercancia">
+                    </div>
+                </div>
+                <div class="fields">
+                <div class="field">
+                    <label>Almacen</label>
+                    <input type="text" name="_almacenDocumentoMercancia" id="_almacenDocumentoMercancia">
+                </div>
+                <div class="field">
+                    <label>Articulo</label>
+                    <input type="text" name="_articuloDocumentoMercancia" id="_articuloDocumentoMercancia">
+                </div>
+                <div class="field">
+                    <label>Lote</label>
+                    <input type="text" name="_loteDocumentoMercancia" id="_loteDocumentoMercancia">
+                </div>
+                <div class="field">
+                    <label>Cantidad</label>
+                    <input type="number" name="_cantidadDocumentoMercancia" id="_cantidadDocumentoMercancia">
+                </div>
+               
             </div>
             <div class="ui primary submit button">REGISTRAR</div>
             <div class="ui error message"></div>
