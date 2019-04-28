@@ -1,10 +1,20 @@
-// // Ejemplo de conexión
-// fetch('https://us-central1-inventario-app-aa28e.cloudfunctions.net/helloWorld')
-//     .then(x => x.text())
-//     .then(x => {
-//         document.getElementById("testService").innerHTML = x;
-//     })
-//     .catch(err => alert(err));
+// // Ejemplo de 
+let vistaActual;
+let formContainer = document.getElementById("formulario");
+
+function cargarVista(e) {
+    headResult.innerHTML="";
+    bodyResutl.innerHTML="";
+    if (!vistaActual) {
+        document.getElementById(e.target.dataset.ruta).hidden = false;
+        vistaActual = e.target.dataset.ruta;
+    } else {
+        document.getElementById(e.target.dataset.ruta).hidden = false;
+        document.getElementById(vistaActual).hidden = true;
+        vistaActual = e.target.dataset.ruta;
+    }
+}
+
 var db = firebase.firestore();
 
 // vista admin consulta de datos
@@ -61,6 +71,7 @@ $('#presentacion')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 $('#almacen')
@@ -88,6 +99,7 @@ $('#almacen')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 $('#laboratorio')
@@ -115,6 +127,7 @@ $('#laboratorio')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 // PRINCIPIO ACTIVO 
@@ -143,6 +156,7 @@ $('#principioActivo')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 // REGISTRO DE PROVEEDORES
@@ -189,6 +203,7 @@ $('#proveedor')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 
@@ -391,6 +406,7 @@ $('#maestroDeArticulo')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 
@@ -420,6 +436,7 @@ $('#tipoDocumento')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 // TIPO DE DOCUMENTO
@@ -448,6 +465,7 @@ $('#tipoSalida')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 // TIPO DE DOCUMENTO
@@ -476,6 +494,7 @@ $('#tipoIngreso')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
         }
     });
 // REGISTRO DE ARTICULO
@@ -588,6 +607,7 @@ $('#articulo')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
             actualizarCantidadMaestroArticulos(event.target.id, inputs);
         }
     });
@@ -680,9 +700,146 @@ $('#ajusteIngreso')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
+        }
+    });
+
+//SALIDA DE MERCANCÍA
+$('#salidaArticulo')
+    .form({
+        fields: {
+            salidaArticulo: {
+                identifier: 'salidaArticulo',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa el nombre del tipo de ingreso'
+                    }
+                ]
+            },
+            _salidaTipoSalida: {
+                identifier: '_salidaTipoSalida',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Selecciona una proveedor'
+                    }
+                ]
+            },
+            _salidaProveedor: {
+                identifier: '_salidaProveedor',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Selecciona un tipo de documento'
+                    }
+                ]
+            },
+            _salidaTipoDocumento: {
+                identifier: '_salidaTipoDocumento',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa el número de documento'
+                    }
+                ]
+            },
+            _salidaNumeroDocumento: {
+                identifier: '_salidaNumeroDocumento',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un almacen'
+                    }
+                ]
+            },
+            _salidaFechaRegistroArticulo: {
+                identifier: '_salidaFechaRegistroArticulo',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un cod articulo'
+                    }
+                ]
+            },
+            _salidaFechaSalida: {
+                identifier: '_salidaFechaSalida',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Selecciona un lote'
+                    }
+                ]
+            },
+            _salidaAlmacen: {
+                identifier: '_salidaAlmacen',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Cantidad de documento'
+                    }
+                ]
+            },
+            _salidaArticulo: {
+                identifier: '_salidaArticulo',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un correlativo'
+                    }
+                ]
+            },
+            _salidaLote: {
+                identifier: '_salidaLote',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un correlativo'
+                    }
+                ]
+            },
+            _salidaCantidad: {
+                identifier: '_salidaCantidad',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa un correlativo'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            registrarFirebase(event.target.id, inputs);
+            obtenerDatosFirebase(event.target.id);
+            restarStock(event.target.id, inputs);
         }
     });
 // Funciones
+function restarStock(collection, data) {
+    db.collection("maestroDeArticulo").doc(data._salidaArticulo).get().then(function (doc) {
+        if (doc.exists) {
+            let cantidad= parseInt(doc.data()._stock);
+            descontarStock(cantidad);
+        } else {
+            console.log("No such document!");
+        }
+    }).catch(function (error) {
+        console.log("Error getting document:", error);
+    });
+
+    function descontarStock(desc){
+        db.collection("maestroDeArticulo").doc(data._salidaArticulo).update({
+            _stock: desc - parseInt(data._salidaCantidad)
+        }).then(function () {
+            console.log("Se desconto correctamente");
+        }).catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
+    }
+
+}
 function registrarFirebase(colecion, data) {
     db.collection(colecion).add(data)
         .then(function () {
@@ -695,15 +852,13 @@ function registrarFirebase(colecion, data) {
         });
 }
 
-function obtenerDatosFirebase(e) {
-    e.preventDefault();
-
+function obtenerDatosFirebase(coll) {
     let thead = document.getElementById("headResult");
     thead.innerHTML = "";
     let tbody = document.getElementById("bodyResutl");
     tbody.innerHTML = "";
     let result = [];
-    db.collection(opt.value).get().then(function (querySnapshot) {
+    db.collection(coll).get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
             let nDoc = doc.data();
             nDoc.id = doc.id;
@@ -716,14 +871,12 @@ function obtenerDatosFirebase(e) {
                     th.innerText = x;
                     thead.appendChild(th);
                 }
-
             });
         }
         // agregando la columna de control
         let th = document.createElement("th");
         th.innerText = 'Control';
-        thead.appendChild(th)
-
+        thead.appendChild(th);
         //Agregando contenido a al tbody
         result.forEach(x => {
             let tr = document.createElement("tr");
@@ -733,23 +886,35 @@ function obtenerDatosFirebase(e) {
                 td.innerText = x[valor];
                 tr.appendChild(td);
                 if (valor == 'id') {
-                    td.innerHTML = `<i class="trash icon" onclick="eliminarRegistro(event)"></i> <i class="edit icon" onclick="editarRegistro(event)"></i>`;
+                    td.innerHTML = `<i class="trash icon" onclick="eliminarRegistro(event,'${coll}')"></i> <i class="edit icon" onclick="editarRegistro(event,'${coll}')"></i>`;
                     tbody.appendChild(tr);
                 }
             }
-
         });
     });
 }
 
-function eliminarRegistro(e) {
-    db.collection(opt.value).doc(e.target.parentElement.parentElement.id).delete().then(function () {
+function eliminarRegistro(e, coll) {
+    db.collection(coll).doc(e.target.parentElement.parentElement.id).delete().then(function () {
         alert("El documento se eliminó correctamente");
-        obtenerDatosFirebase(e);
+        obtenerDatosFirebase(coll);
     }).catch(function (error) {
         alert("Error removing document: ", error);
     });
-
+}
+function editarRegistro(e, coll) {
+    db.collection(coll).doc(e.target.parentElement.parentElement.id).get().then(function (doc) {
+        if (doc.exists) {
+            Object.keys(doc.data()).forEach(x => {
+                document.getElementById(x).value = doc.data()[x]
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function (error) {
+        console.log("Error getting document:", error);
+    });
 }
 
 // OBTENCION DE DATOS - GET
@@ -846,7 +1011,46 @@ function cargarDatosFormularioRegistroMercancia() {
     getDataAlmacen();
     getProdutos();
 }
+function cargarDatosFormularioSalidaMercancia() {
+    getTipoSalida();
+    getDataProveedorSalida();
+    getDataTipoDocumentoSalida();
+    getDataAlmacenSalida();
+    getDataArticulo();
+}
+let _salidaArticulo = document.getElementById("_salidaArticulo");
+function getDataArticulo() {
+    db.collection("articulo").get().then(function (querySnapshot) {
+        _salidaArticulo.innerHTML = "";
+        let data = [{ correlativoSalida: "", nombreTipoSalida: "Seleccione" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.id;
+            opt.innerText = x._nombreArticulo;
+            _salidaArticulo.appendChild(opt)
+        });
+    });
+}
 
+let _salidaTipoSalida = document.getElementById("_salidaTipoSalida");
+function getTipoSalida() {
+    db.collection("tipoSalida").get().then(function (querySnapshot) {
+        _salidaTipoSalida.innerHTML = "";
+        let data = [{ correlativoSalida: "", nombreTipoSalida: "Seleccione" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.correlativoSalida;
+            opt.innerText = x.nombreTipoSalida;
+            _salidaTipoSalida.appendChild(opt)
+        });
+    });
+}
 function getDataProveedor() {
     db.collection("proveedor").get().then(function (querySnapshot) {
         _proveedor.innerHTML = "";
@@ -859,6 +1063,22 @@ function getDataProveedor() {
             opt.value = x.ruc;
             opt.innerText = x.razonSocial;
             _proveedor.appendChild(opt)
+        });
+    });
+}
+let _salidaProveedor = document.getElementById("_salidaProveedor");
+function getDataProveedorSalida() {
+    db.collection("proveedor").get().then(function (querySnapshot) {
+        _salidaProveedor.innerHTML = "";
+        let data = [{ direccion: "", razonSocial: "Seleccione", ruc: "", telefono: "" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.ruc;
+            opt.innerText = x.razonSocial;
+            _salidaProveedor.appendChild(opt)
         });
     });
 }
@@ -877,6 +1097,22 @@ function getDataTipoDocumento() {
         });
     });
 }
+let _salidaTipoDocumento = document.getElementById("_salidaTipoDocumento");
+function getDataTipoDocumentoSalida() {
+    db.collection("tipoDocumento").get().then(function (querySnapshot) {
+        _salidaTipoDocumento.innerHTML = "";
+        let data = [{ codigotipoDocumento: "", nombretipoDocumento: "Seleccione" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.codigotipoDocumento;
+            opt.innerText = x.nombretipoDocumento;
+            _salidaTipoDocumento.appendChild(opt)
+        });
+    });
+}
 function getDataAlmacen() {
     db.collection("almacen").get().then(function (querySnapshot) {
         _almacen.innerHTML = "";
@@ -892,24 +1128,44 @@ function getDataAlmacen() {
         });
     });
 }
+let _salidaAlmacen = document.getElementById("_salidaAlmacen");
+function getDataAlmacenSalida() {
+    db.collection("almacen").get().then(function (querySnapshot) {
+        _salidaAlmacen.innerHTML = "";
+        let data = [{ codigoAlmacen: "", nombreAlmacen: "Seleccione" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.codigoAlmacen;
+            opt.innerText = x.nombreAlmacen;
+            _salidaAlmacen.appendChild(opt)
+        });
+    });
+}
 function getProdutos() {
     db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
         _producto.innerHTML = "";
-        let data = [{ _codigoArticulo: "", _nombreArticulo: "Seleccione", }];
+        let data = [{ _codigoArticulo: "", _nombreArticulo: "Seleccione", _id: "" }];
         querySnapshot.forEach(function (doc) {
-            data.push(doc.data());
+            let temp = doc.data();
+            temp.id = doc.id;
+            data.push(temp);
         });
         data.forEach(x => {
             let opt = document.createElement("option");
             opt.value = x._codigoArticulo;
             opt.innerText = x._nombreArticulo;
             opt.dataset.precio = x._costoCompra;
+            opt.dataset.id = x.id;
             _producto.appendChild(opt)
         });
     });
 }
-function precioActualProducto(e){
+function precioActualProducto(e) {
     _costo.value = e.target.options[e.target.selectedIndex].dataset.precio;
+    document.getElementById("_registroId").value = e.target.options[e.target.selectedIndex].dataset.id;
 }
 function actualizarCantidadMaestroArticulos(coleccion, data) {
     db.collection("maestroDeArticulo").where("_codigoArticulo", "==", data._producto).get().then(function (querySnapshot) {
@@ -924,7 +1180,7 @@ function actualizarCantidadMaestroArticulos(coleccion, data) {
         //  updateObj._producto =  (doc[0]._producto == data._producto)? data._producto:doc[0]._cantidad;
         updateObj._stock = parseFloat(doc[0]._stock) + parseFloat(data._cantidad);
         updateObj._costoCompra = (doc[0]._costoCompra !== data._costo) ? data._costo : doc[0]._costoCompra;
-        
+
         // Actualizando manestro
         db.collection("maestroDeArticulo").doc(id).update(updateObj)
             .then(function () {
@@ -935,4 +1191,13 @@ function actualizarCantidadMaestroArticulos(coleccion, data) {
                 console.error("Error updating document: ", error);
             });
     });
+}
+function formatoNumDoc(event){
+    let value = event.target.value;
+    let formato = "00000000000000";
+    let cantidad = value.length;
+    let completar = formato.substring(0,(14 -cantidad));
+    let result = completar + value;
+        event.target.value = result;
+    
 }

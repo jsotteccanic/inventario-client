@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -23,18 +23,39 @@
             <div class="ui dropdown item">
                 Opciones <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item" href="./admin.html">
+                    <!-- <a class="item" href="./admin.html">
                         Registrar datos
-                    </a>
-                    <a class="item" href="./showRegistros.html">
+                    </a> -->
+                    <!-- <a class="item" href="./showRegistros.html">
                         Consultar datos
-                    </a>
-                    <a class="item">
+                    </a> -->
+                    <!-- <a class="item">
                         Reportes
-                    </a>
+                    </a> -->
+                    <a class="item" data-ruta="formRegistroPresentacionProducto" onclick="cargarVista(event)">Registro
+                        presentación de Productos</a>
+                    <a class="item" data-ruta="formRegistroAlmacen" onclick="cargarVista(event)">Registro almacen</a>
+                    <a class="item" data-ruta="formRegistroLaboratorio" onclick="cargarVista(event)">Registro
+                        laboratorio</a>
+                    <a class="item" data-ruta="formRegistroPrincipioActivo" onclick="cargarVista(event)">Registro
+                        principio activo</a>
+                    <a class="item" data-ruta="formRegistroProveedor" onclick="cargarVista(event)">Registro
+                        proveedor</a>
+                    <a class="item" data-ruta="formRegistroDocumento" onclick="cargarVista(event)">Registro
+                        documento</a>
+
+
+                    <a class="item" data-ruta="formRegistroMaestroArticulo" onclick="cargarVista(event)">Registro
+                        maestro de articulo</a>
+                    <a class="item" data-ruta="formRegistroTipoSalida" onclick="cargarVista(event)">Registro
+                        tipo Salida</a>
+                    <a class="item" data-ruta="formTipoIngreso" onclick="cargarVista(event)">Registro tipo ingreso</a>
+                    <a class="item" data-ruta="formRegistroMercancia" onclick="cargarVista(event)">Registro
+                        mercancia</a>
+                    <a class="item" data-ruta="formSalidaMercancia" onclick="cargarVista(event)">Registro
+                        salida de mercancia</a>
                 </div>
             </div>
-
             <div class="right menu">
                 <!-- <div class="item">
                     <div class="ui icon input">
@@ -48,384 +69,498 @@
     </div>
 
     <div class="ui container">
-        <div class="ui divider"></div>
-        <!-- Registro de presentacion de producto -->
-        <h3 class="ui header">Registro presentacion de producto</h3>
-        <form class="ui form" id="presentacion">
-            <div class="fields">
-                <div class="field">
-                    <label>Codigo presentación</label>
-                    <input type="text" name="codPresentacion" id="codPresentacion" placeholder="Cod presentacion">
+        <div id="formRegistroPresentacionProducto" hidden>
+            <div class="ui divider"></div>
+            <!-- Registro de presentacion de producto -->
+            <h3 class="ui header">Registro presentacion de producto</h3>
+            
+            <form class="ui form" id="presentacion">
+                <div class="fields">
+                    <div class="field">
+                        <label>Codigo presentación</label>
+                        <input type="text" name="codPresentacion" id="codPresentacion" placeholder="Cod presentacion">
+                    </div>
+                    <div class="field">
+                        <label>Nombre presentación</label>
+                        <input type="text" name="nombrePresentacion" id="nombrePresentacion"
+                            placeholder="Ingrese un nombre">
+                    </div>
                 </div>
-                <div class="field">
-                    <label>Nombre presentación</label>
-                    <input type="text" name="nombrePresentacion" id="nombrePresentacion"
-                        placeholder="Ingrese un nombre">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('presentacion')">VER REGISTROS</button> 
+        </div>
+        <div id="formRegistroAlmacen" hidden>
+            <div class="ui divider"></div>
+            <!-- Registro de almacen -->
+            <h3 class="ui header">Registro de almacen</h3>
+            <form class="ui form" id="almacen">
+                <div class="fields">
+                    <div class="field">
+                        <label>Codigo almacén</label>
+                        <input type="text" name="codigoAlmacen" id="codigoAlmacen" placeholder="Codigo almacen">
+                    </div>
+                    <div class="field">
+                        <label>Nombre almacén</label>
+                        <input type="text" name="nombreAlmacen" id="nombreAlmacen" placeholder="Nombre de almacen">
+                    </div>
                 </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- Registro de almacen -->
-        <h3 class="ui header">Registro de almacen</h3>
-        <form class="ui form" id="almacen">
-            <div class="fields">
-                <div class="field">
-                    <label>Codigo almacén</label>
-                    <input type="text" name="codigoAlmacen" id="codigoAlmacen" placeholder="Codigo almacen">
+                <div class="ui primary submit button">Registrar</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('almacen')">VER REGISTROS</button> 
+        </div>
+        <div id="formRegistroLaboratorio" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR LABORATORIO -->
+            <h3 class="ui header">Registro de Laboratorio</h3>
+            <form class="ui form" id="laboratorio">
+                <div class="fields">
+                    <div class="field">
+                        <label>Codigo de laboratorio</label>
+                        <input type="text" name="codigoLaboratorio" id="codigoLaboratorio"
+                            placeholder="Codigo Laboratorio">
+                    </div>
+                    <div class="field">
+                        <label>Nombre de laboratorio</label>
+                        <input type="text" name="nombreLaboratorio" id="nombreLaboratorio"
+                            placeholder="Nombre de Laboratorio">
+                    </div>
                 </div>
-                <div class="field">
-                    <label>Nombre almacén</label>
-                    <input type="text" name="nombreAlmacen" id="nombreAlmacen" placeholder="Nombre de almacen">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('laboratorio')">VER REGISTROS</button>
+        </div>
+        <div id="formRegistroPrincipioActivo" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR PRINCIPIO ACTIVO -->
+            <h3 class="ui header">Registro del principio activo</h3>
+            <form class="ui form" id="principioActivo">
+                <div class="fields">
+                    <div class="field">
+                        <label>Codigo del principio activo</label>
+                        <input type="text" name="codigoPrincipioActivo" id="codigoPrincipioActivo"
+                            placeholder="Codigo PrincipioActivo">
+                    </div>
+                    <div class="field">
+                        <label>Nombre del principio activo</label>
+                        <input type="text" name="nombrePrincipioActivo" id="nombrePrincipioActivo"
+                            placeholder="Nombre de PrincipioActivo">
+                    </div>
                 </div>
-            </div>
-            <div class="ui primary submit button">Registrar</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- REGISTRAR LABORATORIO -->
-        <h3 class="ui header">Registro de Laboratorio</h3>
-        <form class="ui form" id="laboratorio">
-            <div class="fields">
-                <div class="field">
-                    <label>Codigo de laboratorio</label>
-                    <input type="text" name="codigoLaboratorio" id="codigoLaboratorio" placeholder="Codigo Laboratorio">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('principioActivo')">VER REGISTROS</button>
+        </div>
+        <div id="formRegistroProveedor" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR PROVEEDORES -->
+            <h3 class="ui header">Registro de proveedor</h3>
+            <form class="ui form" id="proveedor">
+                <div class="fields">
+                    <div class="field">
+                        <label>Ruc</label>
+                        <input type="text" name="ruc" id="ruc" placeholder="Ingresa el número de ruc">
+                    </div>
+                    <div class="field">
+                        <label>Nombre de razón social</label>
+                        <input type="text" name="razonSocial" id="razonSocial" placeholder="Razón social">
+                    </div>
+                    <div class="field">
+                        <label>Direccion</label>
+                        <input type="text" name="direccion" id="direccion" placeholder="Dirección">
+                    </div>
+                    <div class="field">
+                        <label>Telefono</label>
+                        <input type="text" name="telefono" id="telefono" placeholder="Telefono">
+                    </div>
                 </div>
-                <div class="field">
-                    <label>Nombre de laboratorio</label>
-                    <input type="text" name="nombreLaboratorio" id="nombreLaboratorio"
-                        placeholder="Nombre de Laboratorio">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('proveedor')">VER REGISTROS</button>
+        </div>
+        <div id="formRegistroDocumento" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR PRINCIPIO ACTIVO -->
+            <h3 class="ui header">Registro tipo de documento</h3>
+            <form class="ui form" id="tipoDocumento">
+                <div class="fields">
+                    <div class="field">
+                        <label>Codigo de documento</label>
+                        <input type="text" name="codigotipoDocumento" id="codigotipoDocumento"
+                            placeholder="Codigo Documento">
+                    </div>
+                    <div class="field">
+                        <label>Nombre del documento</label>
+                        <input type="text" name="nombretipoDocumento" id="nombretipoDocumento"
+                            placeholder="Nombre de Documento">
+                    </div>
                 </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- REGISTRAR PRINCIPIO ACTIVO -->
-        <h3 class="ui header">Registro del principio activo</h3>
-        <form class="ui form" id="principioActivo">
-            <div class="fields">
-                <div class="field">
-                    <label>Codigo del principio activo</label>
-                    <input type="text" name="codigoPrincipioActivo" id="codigoPrincipioActivo"
-                        placeholder="Codigo PrincipioActivo">
-                </div>
-                <div class="field">
-                    <label>Nombre del principio activo</label>
-                    <input type="text" name="nombrePrincipioActivo" id="nombrePrincipioActivo"
-                        placeholder="Nombre de PrincipioActivo">
-                </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- REGISTRAR PROVEEDORES -->
-        <h3 class="ui header">Registro de proveedor</h3>
-        <form class="ui form" id="proveedor">
-            <div class="fields">
-                <div class="field">
-                    <label>Ruc</label>
-                    <input type="text" name="ruc" id="ruc" placeholder="Ingresa el número de ruc">
-                </div>
-                <div class="field">
-                    <label>Nombre de razón social</label>
-                    <input type="text" name="razonSocial" id="razonSocial" placeholder="Razón social">
-                </div>
-                <div class="field">
-                    <label>Direccion</label>
-                    <input type="text" name="direccion" id="direccion" placeholder="Dirección">
-                </div>
-                <div class="field">
-                    <label>Telefono</label>
-                    <input type="text" name="telefono" id="telefono" placeholder="Telefono">
-                </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- REGISTRAR PRINCIPIO ACTIVO -->
-        <h3 class="ui header">Registro tipo de documento</h3>
-        <form class="ui form" id="tipoDocumento">
-            <div class="fields">
-                <div class="field">
-                    <label>Codigo de documento</label>
-                    <input type="text" name="codigotipoDocumento" id="codigotipoDocumento"
-                        placeholder="Codigo Documento">
-                </div>
-                <div class="field">
-                    <label>Nombre del documento</label>
-                    <input type="text" name="nombretipoDocumento" id="nombretipoDocumento"
-                        placeholder="Nombre de Documento">
-                </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- REGISTRAR MESTRO DE ARTICULO -->
-        <h3 class="ui header">Registro Maestro de articulo</h3>
-        <button onclick="cargarDatosFormularioArticulo()">Cargar datos al formulario</button>
-        <form class="ui form" id="maestroDeArticulo">
-            <div class="fields">
-                <div class="field">
-                    <label>Codigo de artículo</label>
-                    <input type="text" name="_codigoArticulo" id="_codigoArticulo" placeholder="Codigo artículo">
-                </div>
-                <div class="field">
-                    <label>Nombre del artículo</label>
-                    <input type="text" name="_nombreArticulo" id="_nombreArticulo" placeholder="Nombre de artículo">
-                </div>
-                <div class="field">
-                    <label>Multiplo</label>
-                    <input type="text" name="_multiplo" id="_multiplo" placeholder="Multiplo">
-                </div>
-                <div class="field">
-                    <label>Presentación</label>
-                    <select name="_presentacion" id="_presentacion" placeholder="_Presentacion">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('tipoDocumento')">VER REGISTROS</button>
+        </div>
+        <div id="formRegistroMaestroArticulo" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR MESTRO DE ARTICULO -->
+            <h3 class="ui header">Registro Maestro de articulo</h3>
+            <button class="ui success button" onclick="cargarDatosFormularioArticulo()">Cargar datos al formulario</button>
+            <form class="ui form" id="maestroDeArticulo">
+                <div class="fields">
+                    <div class="field">
+                        <label>Codigo de artículo</label>
+                        <input type="text" name="_codigoArticulo" id="_codigoArticulo" placeholder="Codigo artículo">
+                    </div>
+                    <div class="field">
+                        <label>Nombre del artículo</label>
+                        <input type="text" name="_nombreArticulo" id="_nombreArticulo" placeholder="Nombre de artículo">
+                    </div>
+                    <div class="field">
+                        <label>Multiplo</label>
+                        <input type="text" name="_multiplo" id="_multiplo" placeholder="Multiplo">
+                    </div>
+                    <div class="field">
+                        <label>Presentación</label>
+                        <select name="_presentacion" id="_presentacion" placeholder="_Presentacion">
 
-                    </select>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="fields">
-                <div class="field">
-                    <label>Costo de compra</label>
-                    <input type="text" name="_costoCompra" id="_costoCompra" placeholder="Costo">
-                </div>
-                <div class="field">
-                    <label>Principio activo</label>
-                    <select name="_principioActivo" id="_principioActivo" placeholder="_principioActivo">
+                <div class="fields">
+                    <div class="field">
+                        <label>Costo de compra</label>
+                        <input type="text" name="_costoCompra" id="_costoCompra" placeholder="Costo">
+                    </div>
+                    <div class="field">
+                        <label>Principio activo</label>
+                        <select name="_principioActivo" id="_principioActivo" placeholder="_principioActivo">
 
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Stock</label>
-                    <input type="text" name="_stock" id="_stock" placeholder="Cant. stock">
-                </div>
-                <div class="field">
-                    <label>Laboratorio</label>
-                    <select name="_laboratorio" id="_laboratorio" placeholder="Nombre laboratorio">
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Stock</label>
+                        <input type="text" name="_stock" id="_stock" placeholder="Cant. stock">
+                    </div>
+                    <div class="field">
+                        <label>Laboratorio</label>
+                        <select name="_laboratorio" id="_laboratorio" placeholder="Nombre laboratorio">
 
-                    </select>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="fields">
-                <div class="field">
-                    <label>Sub clase</label>
-                    <select name="_subClase" id="_subClase" placeholder="Nombre sub clase">
+                <div class="fields">
+                    <div class="field">
+                        <label>Sub clase</label>
+                        <select name="_subClase" id="_subClase" placeholder="Nombre sub clase">
 
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Clase</label>
-                    <select name="_clase" id="_clase" placeholder="Nombre clase">
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Clase</label>
+                        <select name="_clase" id="_clase" placeholder="Nombre clase">
 
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Lote</label>
-                    <input type="checkbox" name="_lote" id="_lote" placeholder="Ingrese el lote">
-                </div>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Lote</label>
+                        <input type="checkbox" name="_lote" id="_lote" placeholder="Ingrese el lote">
+                    </div>
 
-                <!-- oBSERVACIÓN -->
-                <div class="field">
-                    <label>Fecha de vencimiento</label>
-                    <input type="checkbox" name="_fechaVencimiento" id="_fechaVencimiento">
+                    <!-- oBSERVACIÓN -->
+                    <div class="field">
+                        <label>Fecha de vencimiento</label>
+                        <input type="checkbox" name="_fechaVencimiento" id="_fechaVencimiento">
+                    </div>
+                    <!-- cambio minimo maximo -->
+                    <div class="field">
+                        <label>Minimo</label>
+                        <input type="number" name="_minimo" id="_minimo" min="0">
+                    </div>
+                    <div class="field">
+                        <label>Maximo</label>
+                        <input type="number" name="_maximo" id="_maximo" min="0">
+                    </div>
                 </div>
-                <!-- cambio minimo maximo -->
-                <div class="field">
-                    <label>Minimo</label>
-                    <input type="number" name="_minimo" id="_minimo" min="0">
+                <div class="fields">
+                    <div class="field">
+                        <label>Código de barra</label>
+                        <input type="text" name="_codigoBarra" id="_codigoBarra">
+                    </div>
+                    <div class="field">
+                        <label>Igv</label>
+                        <input type="text" name="_igv" id="_igv">
+                    </div>
+                    <div class="field">
+                        <label>VVF</label>
+                        <input type="text" name="_vvf" id="_vvf">
+                    </div>
+                    <div class="field">
+                        <label>PVF</label>
+                        <input type="text" name="_pvf" id="_pvf">
+                    </div>
                 </div>
-                <div class="field">
-                    <label>Maximo</label>
-                    <input type="number" name="_maximo" id="_maximo" min="0">
+                <div class="fields">
+                    <div class="field">
+                        <label>PVP</label>
+                        <input type="text" name="_pvp" id="_pvp">
+                    </div>
+                    <div class="field">
+                        <label>Incremento</label>
+                        <input type="text" name="_incremento" id="_incremento">
+                    </div>
                 </div>
-            </div>
-            <div class="fields">
-                <div class="field">
-                    <label>Código de barra</label>
-                    <input type="text" name="_codigoBarra" id="_codigoBarra">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('maestroDeArticulo')">VER REGISTROS</button>
+        </div>
+        <div id="formRegistroTipoSalida" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR TIPO DE SALIDA -->
+            <h3 class="ui header">Registro tipo de salida</h3>
+            <form class="ui form" id="tipoSalida">
+                <div class="fields">
+                    <div class="field">
+                        <label>Nombre de tipo de salida</label>
+                        <input type="text" name="nombreTipoSalida" id="nombreTipoSalida"
+                            placeholder="Nombre tipo salida">
+                    </div>
+                    <div class="field">
+                        <label>Número de correlativo</label>
+                        <input type="number" name="correlativoSalida" id="correlativoSalida">
+                    </div>
                 </div>
-                <div class="field">
-                    <label>Igv</label>
-                    <input type="text" name="_igv" id="_igv">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('tipoSalida')">VER REGISTROS</button>
+        </div>
+        <div id="formTipoIngreso" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR TIPO DE ENTRADA -->
+            <h3 class="ui header">Registro tipo de ingreso</h3>
+            <form class="ui form" id="tipoIngreso">
+                <div class="fields">
+                    <div class="field">
+                        <label>Nombre de tipo de ingreso</label>
+                        <input type="text" name="nombreTipoIngreso" id="nombreTipoIngreso"
+                            placeholder="Nombre tipo ingreso">
+                    </div>
+                    <div class="field">
+                        <label>Número de correlativo</label>
+                        <input type="number" name="correlativoIngreso" id="correlativoIngreso">
+                    </div>
                 </div>
-                <div class="field">
-                    <label>VVF</label>
-                    <input type="text" name="_vvf" id="_vvf">
-                </div>
-                <div class="field">
-                    <label>PVF</label>
-                    <input type="text" name="_pvf" id="_pvf">
-                </div>
-            </div>
-            <div class="fields">
-                <div class="field">
-                    <label>PVP</label>
-                    <input type="text" name="_pvp" id="_pvp">
-                </div>
-                <div class="field">
-                    <label>Incremento</label>
-                    <input type="text" name="_incremento" id="_incremento">
-                </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- REGISTRAR TIPO DE SALIDA -->
-        <h3 class="ui header">Registro tipo de salida</h3>
-        <form class="ui form" id="tipoSalida">
-            <div class="fields">
-                <div class="field">
-                    <label>Nombre de tipo de salida</label>
-                    <input type="text" name="nombreTipoSalida" id="nombreTipoSalida" placeholder="Nombre tipo salida">
-                </div>
-                <div class="field">
-                    <label>Número de correlativo</label>
-                    <input type="number" name="correlativoSalida" id="correlativoSalida">
-                </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- REGISTRAR TIPO DE ENTRADA -->
-        <h3 class="ui header">Registro tipo de ingreso</h3>
-        <form class="ui form" id="tipoIngreso">
-            <div class="fields">
-                <div class="field">
-                    <label>Nombre de tipo de ingreso</label>
-                    <input type="text" name="nombreTipoIngreso" id="nombreTipoIngreso"
-                        placeholder="Nombre tipo ingreso">
-                </div>
-                <div class="field">
-                    <label>Número de correlativo</label>
-                    <input type="number" name="correlativoIngreso" id="correlativoIngreso">
-                </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- REGISTRAR ARTICULO -->
-        <h3 class="ui header">Registro de mercancia (articulo)</h3>
-        <button onclick="cargarDatosFormularioRegistroMercancia()">getData Mercancía</button>
-        <form class="ui form" id="articulo">
-            <div class="fields">
-                <div class="field">
-                    <label>Proveedor</label>
-                    <select name="_proveedor" id="_proveedor">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('tipoIngreso')">VER REGISTROS</button>
+        </div>
+        <div id="formRegistroMercancia" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR ARTICULO -->
+            <h3 class="ui header">Registro de mercancia (articulo)</h3>
+            <button class="ui success button" onclick="cargarDatosFormularioRegistroMercancia()">getData Mercancía</button>
+            <form class="ui form" id="articulo">
+                <div class="fields">
+                    <div class="field">
+                        <label>Proveedor</label>
+                        <select name="_proveedor" id="_proveedor">
 
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Tipo de documento</label>
-                    <select name="_tipoDocumento" id="_tipoDocumento">
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Tipo de documento</label>
+                        <select name="_tipoDocumento" id="_tipoDocumento">
 
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Fecha de registro</label>
-                    <input type="date" name="_fechaRegistroArticulo" id="_fechaRegistroArticulo">
-                </div>
-                <div class="field">
-                    <label>Número de documento</label>
-                    <input type="number" name="_numeroDocumento" id="_numeroDocumento">
-                </div>
-                <div class="field">
-                    <label>Seleccione almacen</label>
-                    <select name="_almacen" id="_almacen">
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Fecha de registro</label>
+                        <input type="date" name="_fechaRegistroArticulo" id="_fechaRegistroArticulo">
+                    </div>
+                    <div class="field">
+                        <label>Número de documento</label>
+                        <input type="text" name="_numeroDocumento" id="_numeroDocumento" onchange="formatoNumDoc(event)">
+                    </div>
+                    <div class="field">
+                        <label>Seleccione almacen</label>
+                        <select name="_almacen" id="_almacen">
 
-                    </select>
-                </div>
+                        </select>
+                    </div>
 
-            </div>
-            <div class="fields">
-                <div class="field">
-                    <label>Seleccione producto</label>
-                    <select name="_producto" id="_producto" onchange="precioActualProducto(event)">
+                </div>
+                <div class="fields">
+                    <div class="field">
+                        <label>Seleccione producto</label>
+                        <select name="_producto" id="_producto" onchange="precioActualProducto(event)">
 
-                    </select>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Costo</label>
+                        <input type="text" name="_costo" id="_costo">
+                    </div>
+                    <div class="field">
+                        <label>Cantidad</label>
+                        <input type="number" name="_cantidad" id="_cantidad" min="0">
+                    </div>
+                    <div class="field">
+                        <label>Lote</label>
+                        <input type="text" name="_lote" id="_lote">
+                    </div>
+                    <div class="field">
+                        <label>Fecha de vencimiento</label>
+                        <input type="date" name="_fechaVencimiento" id="_fechaVencimiento">
+                    </div>
+                    <div class="field" hidden>
+                            <label>Fecha de vencimiento</label>
+                            <input type="date" name="_registroId" id="_registroId">
+                        </div>
                 </div>
-                <div class="field">
-                    <label>Costo</label>
-                    <input type="text" name="_costo" id="_costo">
-                </div>
-                <div class="field">
-                    <label>Cantidad</label>
-                    <input type="number" name="_cantidad" id="_cantidad" min="0">
-                </div>
-                <div class="field">
-                    <label>Lote</label>
-                    <input type="text" name="_lote" id="_lote">
-                </div>
-                <div class="field">
-                    <label>Fecha de vencimiento</label>
-                    <input type="date" name="_fechaVencimiento" id="_fechaVencimiento">
-                </div>
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
-        <div class="ui divider"></div>
-        <!-- PROCESO AJUSTE DE MERCANCÍA -->
-        <h3 class="ui header">Ajuste de mercancía</h3>
-        <form class="ui form" id="ajusteIngreso">
-            <div class="fields">
-                <div class="field">
-                    <label>Tipo de ingreso</label>
-                    <select name="_tipoDeIngreso" id="_tipoDeIngreso">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('articulo')">VER REGISTROS</button>
+        </div>
+        <div id="formAjusteMercancia" hidden>|
+            <div class="ui divider"></div>
+            <!-- PROCESO AJUSTE DE MERCANCÍA -->
+            <h3 class="ui header">Ajuste de mercancía</h3>
+            <form class="ui form" id="ajusteIngreso">
+                <div class="fields">
+                    <div class="field">
+                        <label>Tipo de ingreso</label>
+                        <select name="_tipoDeIngreso" id="_tipoDeIngreso">
 
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Proveedor</label>
-                    <select name="_proveedorMercancia" id="_proveedorMercancia">
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Proveedor</label>
+                        <select name="_proveedorMercancia" id="_proveedorMercancia">
 
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Tipo de documento</label>
-                    <select name="_tipoDocumentoMercancia" id="_tipoDocumentoMercancia">
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Tipo de documento</label>
+                        <select name="_tipoDocumentoMercancia" id="_tipoDocumentoMercancia">
 
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Número de doc</label>
-                    <input type="text" name="_numeroDocumentoMercancia" id="_numeroDocumentoMercancia">
-                </div>
-                <div class="field">
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Número de doc</label>
+                        <input type="text" name="_numeroDocumentoMercancia" id="_numeroDocumentoMercancia">
+                    </div>
+                    <div class="field">
                         <label>Correlativo</label>
                         <input type="number" name="_correlativoDocumentoMercancia" id="_correlativoDocumentoMercancia">
                     </div>
                 </div>
                 <div class="fields">
-                <div class="field">
-                    <label>Almacen</label>
-                    <input type="text" name="_almacenDocumentoMercancia" id="_almacenDocumentoMercancia">
+                    <div class="field">
+                        <label>Almacen</label>
+                        <input type="text" name="_almacenDocumentoMercancia" id="_almacenDocumentoMercancia">
+                    </div>
+                    <div class="field">
+                        <label>Articulo</label>
+                        <input type="text" name="_articuloDocumentoMercancia" id="_articuloDocumentoMercancia">
+                    </div>
+                    <div class="field">
+                        <label>Lote</label>
+                        <input type="text" name="_loteDocumentoMercancia" id="_loteDocumentoMercancia">
+                    </div>
+                    <div class="field">
+                        <label>Cantidad</label>
+                        <input type="number" name="_cantidadDocumentoMercancia" id="_cantidadDocumentoMercancia">
+                    </div>
+
                 </div>
-                <div class="field">
-                    <label>Articulo</label>
-                    <input type="text" name="_articuloDocumentoMercancia" id="_articuloDocumentoMercancia">
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('ajusteIngreso')">VER REGISTROS</button>
+        </div>
+        <div id="formSalidaMercancia" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR SALIDA DE ARTICULO -->
+            <h3 class="ui header">Salida de mercancia (articulo)</h3>
+            <button class="ui success button" onclick="cargarDatosFormularioSalidaMercancia()">getData Mercancía</button>
+            <form class="ui form" id="salidaArticulo">
+                <div class="fields">
+                    <div class="field">
+                        <label>Tipo de salida</label>
+                        <select name="_salidaTipoSalida" id="_salidaTipoSalida">
+
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Proveedor</label>
+                        <select name="_salidaProveedor" id="_salidaProveedor">
+
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Tipo de documento</label>
+                        <select name="_salidaTipoDocumento" id="_salidaTipoDocumento">
+
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Número de documento</label>
+                        <input type="text" name="_salidaNumeroDocumento" id="_salidaNumeroDocumento" maxlength="14" onchange="formatoNumDoc(event)">
+                    </div>
+                    <div class="field">
+                        <label>Fecha de salida</label>
+                        <input type="date" name="_salidaFechaRegistroArticulo" id="_salidaFechaRegistroArticulo">
+                    </div>
+                    <div class="field">
+                        <label>Correlativo</label>
+                        <input type="text" name="_salidaFechaSalida" id="_salidaFechaSalida">
+                    </div>
                 </div>
-                <div class="field">
-                    <label>Lote</label>
-                    <input type="text" name="_loteDocumentoMercancia" id="_loteDocumentoMercancia">
+                <div class="fields">
+                    <div class="field">
+                        <label>Almacen</label>
+                        <select name="_salidaAlmacen" id="_salidaAlmacen">
+
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Articulo</label>
+                        <select name="_salidaArticulo" id="_salidaArticulo">
+
+                            </select>
+                    </div>
+                    <div class="field">
+                        <label>Lote</label>
+                        <input type="text" name="_salidaLote" id="_salidaLote">
+                    </div>
+                    <div class="field">
+                            <label>Cantidad</label>
+                            <input type="number" name="_salidaCantidad" id="_salidaCantidad" min="0">
+                        </div>
                 </div>
-                <div class="field">
-                    <label>Cantidad</label>
-                    <input type="number" name="_cantidadDocumentoMercancia" id="_cantidadDocumentoMercancia">
-                </div>
-               
-            </div>
-            <div class="ui primary submit button">REGISTRAR</div>
-            <div class="ui error message"></div>
-        </form>
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form><hr/>
+            <button class="ui primary button" onclick="obtenerDatosFirebase('salidaArticulo')">VER REGISTROS</button>
+        </div>
         <div class="ui divider"></div>
+        <div id="tablaContainer" style="overflow-x: auto">
+            <table class="ui celled padded table">
+                <thead id="headResult">
+                </thead>
+                <tbody id="bodyResutl">
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
@@ -441,6 +576,7 @@
     };
     firebase.initializeApp(config);
 </script>
+
 <script src="./js/index.js"></script>
 
 </html>
