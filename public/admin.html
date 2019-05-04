@@ -23,15 +23,6 @@
             <div class="ui dropdown item">
                 Opciones <i class="dropdown icon"></i>
                 <div class="menu">
-                    <!-- <a class="item" href="./admin.html">
-                        Registrar datos
-                    </a> -->
-                    <!-- <a class="item" href="./showRegistros.html">
-                        Consultar datos
-                    </a> -->
-                    <!-- <a class="item">
-                        Reportes
-                    </a> -->
                     <a class="item" data-ruta="formRegistroPresentacionProducto" onclick="cargarVista(event)">Registro
                         presentación de Productos</a>
                     <a class="item" data-ruta="formRegistroAlmacen" onclick="cargarVista(event)">Registro almacen</a>
@@ -43,8 +34,6 @@
                         proveedor</a>
                     <a class="item" data-ruta="formRegistroDocumento" onclick="cargarVista(event)">Registro
                         documento</a>
-
-
                     <a class="item" data-ruta="formRegistroMaestroArticulo" onclick="cargarVista(event)">Registro
                         maestro de articulo</a>
                     <a class="item" data-ruta="formRegistroTipoSalida" onclick="cargarVista(event)">Registro
@@ -54,6 +43,8 @@
                         mercancia</a>
                     <a class="item" data-ruta="formSalidaMercancia" onclick="cargarVista(event)">Registro
                         salida de mercancia</a>
+                    <a class="item" data-ruta="reporteItemsVencidos" onclick="cargarVista(event)">Registro
+                        Reporte items vencidos</a>
                 </div>
             </div>
             <div class="right menu">
@@ -73,7 +64,7 @@
             <div class="ui divider"></div>
             <!-- Registro de presentacion de producto -->
             <h3 class="ui header">Registro presentacion de producto</h3>
-            
+
             <form class="ui form" id="presentacion">
                 <div class="fields">
                     <div class="field">
@@ -88,8 +79,9 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
-            <button class="ui primary button" onclick="obtenerDatosFirebase('presentacion')">VER REGISTROS</button> 
+            </form>
+            <hr />
+            <button class="ui primary button" onclick="obtenerDatosFirebase('presentacion')">VER REGISTROS</button>
         </div>
         <div id="formRegistroAlmacen" hidden>
             <div class="ui divider"></div>
@@ -108,8 +100,9 @@
                 </div>
                 <div class="ui primary submit button">Registrar</div>
                 <div class="ui error message"></div>
-            </form><hr/>
-            <button class="ui primary button" onclick="obtenerDatosFirebase('almacen')">VER REGISTROS</button> 
+            </form>
+            <hr />
+            <button class="ui primary button" onclick="obtenerDatosFirebase('almacen')">VER REGISTROS</button>
         </div>
         <div id="formRegistroLaboratorio" hidden>
             <div class="ui divider"></div>
@@ -130,7 +123,8 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('laboratorio')">VER REGISTROS</button>
         </div>
         <div id="formRegistroPrincipioActivo" hidden>
@@ -152,7 +146,8 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('principioActivo')">VER REGISTROS</button>
         </div>
         <div id="formRegistroProveedor" hidden>
@@ -180,7 +175,8 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('proveedor')">VER REGISTROS</button>
         </div>
         <div id="formRegistroDocumento" hidden>
@@ -202,14 +198,16 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('tipoDocumento')">VER REGISTROS</button>
         </div>
         <div id="formRegistroMaestroArticulo" hidden>
             <div class="ui divider"></div>
             <!-- REGISTRAR MESTRO DE ARTICULO -->
             <h3 class="ui header">Registro Maestro de articulo</h3>
-            <button class="ui success button" onclick="cargarDatosFormularioArticulo()">Cargar datos al formulario</button>
+            <button class="ui success button" onclick="cargarDatosFormularioArticulo()">Cargar datos al
+                formulario</button>
             <form class="ui form" id="maestroDeArticulo">
                 <div class="fields">
                     <div class="field">
@@ -316,7 +314,8 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('maestroDeArticulo')">VER REGISTROS</button>
         </div>
         <div id="formRegistroTipoSalida" hidden>
@@ -337,7 +336,8 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('tipoSalida')">VER REGISTROS</button>
         </div>
         <div id="formTipoIngreso" hidden>
@@ -358,14 +358,16 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('tipoIngreso')">VER REGISTROS</button>
         </div>
         <div id="formRegistroMercancia" hidden>
             <div class="ui divider"></div>
             <!-- REGISTRAR ARTICULO -->
             <h3 class="ui header">Registro de mercancia (articulo)</h3>
-            <button class="ui success button" onclick="cargarDatosFormularioRegistroMercancia()">getData Mercancía</button>
+            <button class="ui success button" onclick="cargarDatosFormularioRegistroMercancia()">getData
+                Mercancía</button>
             <form class="ui form" id="articulo">
                 <div class="fields">
                     <div class="field">
@@ -386,7 +388,8 @@
                     </div>
                     <div class="field">
                         <label>Número de documento</label>
-                        <input type="text" name="_numeroDocumento" id="_numeroDocumento" onchange="formatoNumDoc(event)">
+                        <input type="text" name="_numeroDocumento" id="_numeroDocumento"
+                            onchange="formatoNumDoc(event)">
                     </div>
                     <div class="field">
                         <label>Seleccione almacen</label>
@@ -396,37 +399,20 @@
                     </div>
 
                 </div>
-                <div class="fields">
-                    <div class="field">
-                        <label>Seleccione producto</label>
-                        <select name="_producto" id="_producto" onchange="precioActualProducto(event)">
-
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Costo</label>
-                        <input type="text" name="_costo" id="_costo">
-                    </div>
-                    <div class="field">
-                        <label>Cantidad</label>
-                        <input type="number" name="_cantidad" id="_cantidad" min="0">
-                    </div>
-                    <div class="field">
-                        <label>Lote</label>
-                        <input type="text" name="_lote" id="_lote">
-                    </div>
-                    <div class="field">
-                        <label>Fecha de vencimiento</label>
-                        <input type="date" name="_fechaVencimiento" id="_fechaVencimiento">
-                    </div>
-                    <div class="field" hidden>
-                            <label>Fecha de vencimiento</label>
-                            <input type="date" name="_registroId" id="_registroId">
-                        </div>
+                <div class="addDetalle">
+                    <span class="ui compact icon button" onclick="addDetalleMercancia()">
+                        <i class="plus square outline icon"></i>
+                    </span>
                 </div>
+                <div id="detalleMercancia">
+                    <!-- <div class="fields">
+                    </div> -->
+                </div>
+
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('articulo')">VER REGISTROS</button>
         </div>
         <div id="formAjusteMercancia" hidden>|
@@ -483,14 +469,16 @@
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('ajusteIngreso')">VER REGISTROS</button>
         </div>
         <div id="formSalidaMercancia" hidden>
             <div class="ui divider"></div>
             <!-- REGISTRAR SALIDA DE ARTICULO -->
             <h3 class="ui header">Salida de mercancia (articulo)</h3>
-            <button class="ui success button" onclick="cargarDatosFormularioSalidaMercancia()">getData Mercancía</button>
+            <button class="ui success button" onclick="cargarDatosFormularioSalidaMercancia()">getData
+                Mercancía</button>
             <form class="ui form" id="salidaArticulo">
                 <div class="fields">
                     <div class="field">
@@ -513,7 +501,8 @@
                     </div>
                     <div class="field">
                         <label>Número de documento</label>
-                        <input type="text" name="_salidaNumeroDocumento" id="_salidaNumeroDocumento" maxlength="14" onchange="formatoNumDoc(event)">
+                        <input type="text" name="_salidaNumeroDocumento" id="_salidaNumeroDocumento" maxlength="14"
+                            onchange="formatoNumDoc(event)">
                     </div>
                     <div class="field">
                         <label>Fecha de salida</label>
@@ -526,29 +515,34 @@
                 </div>
                 <div class="fields">
                     <div class="field">
-                        <label>Almacen</label>
-                        <select name="_salidaAlmacen" id="_salidaAlmacen">
+                        <label>Articulo</label>
+                        <select name="_salidaArticulo" id="_salidaArticulo" onchange="getArticulos(event)">
 
                         </select>
                     </div>
                     <div class="field">
-                        <label>Articulo</label>
-                        <select name="_salidaArticulo" id="_salidaArticulo">
-
-                            </select>
+                        <label>Almacen</label>
+                        <input type="text" name="_salidaAlmacen" id="_salidaAlmacen" />
                     </div>
                     <div class="field">
                         <label>Lote</label>
                         <input type="text" name="_salidaLote" id="_salidaLote">
                     </div>
                     <div class="field">
-                            <label>Cantidad</label>
-                            <input type="number" name="_salidaCantidad" id="_salidaCantidad" min="0">
-                        </div>
+                        <label>Cantidad salida</label>
+                        <input type="number" name="_salidaCantidad" id="_salidaCantidad" min="0"
+                            onchange="validarSalidaCantidad(event)">
+                    </div>
+                    <div class="field" hidden>
+                        <label>codigo maestro</label>
+                        <input type="number" name="_codigoMaestroArticulo" id="_codigoMaestroArticulo" min="0"
+                            onchange="validarSalidaCantidad(event)">
+                    </div>
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
-            </form><hr/>
+            </form>
+            <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('salidaArticulo')">VER REGISTROS</button>
         </div>
         <div class="ui divider"></div>
@@ -561,7 +555,29 @@
                 </tbody>
             </table>
         </div>
+        <div id="reporteItemsVencidos" hidden>
+            <h1>Reporte vencidos</h1>
+          
+            <button onclick="cargarReporteVencidos()">Cargar Reporte</button>
+            <input type="date" id="inProximosVencer">
+            <button onclick="cargarReporteProximosVencidos()">Cargar Reporte</button>
+            <table class="ui table">
+                <thead>
+                    <th>Nombre Articulo</th>
+                    <th>Lote</th>
+                    <th>Almacen</th>
+                    <th>Fecha venc</th>
+                </thead>
+                <tbody id="tbReporteArticulosVencidos"></tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
     </div>
+
+    <div id="modalAlmacen" class="ui modal">
+
+    </div>
+
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
 <script>

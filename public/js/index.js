@@ -3,8 +3,8 @@ let vistaActual;
 let formContainer = document.getElementById("formulario");
 
 function cargarVista(e) {
-    headResult.innerHTML="";
-    bodyResutl.innerHTML="";
+    headResult.innerHTML = "";
+    bodyResutl.innerHTML = "";
     if (!vistaActual) {
         document.getElementById(e.target.dataset.ruta).hidden = false;
         vistaActual = e.target.dataset.ruta;
@@ -29,6 +29,7 @@ let _clase = document.getElementById("_clase");
 let _tipoDocumento = document.getElementById("_tipoDocumento");
 let _almacen = document.getElementById("_almacen");
 let _producto = document.getElementById("_producto");
+let modalAlmacen = document.getElementById("modalAlmacen");
 
 ////Reactivar - validación de autenticación
 // firebase.auth().onAuthStateChanged(function (user) {
@@ -810,6 +811,7 @@ $('#salidaArticulo')
         },
         onSuccess: (event, inputs) => {
             event.preventDefault();
+            debugger;
             registrarFirebase(event.target.id, inputs);
             obtenerDatosFirebase(event.target.id);
             restarStock(event.target.id, inputs);
@@ -819,7 +821,7 @@ $('#salidaArticulo')
 function restarStock(collection, data) {
     db.collection("maestroDeArticulo").doc(data._salidaArticulo).get().then(function (doc) {
         if (doc.exists) {
-            let cantidad= parseInt(doc.data()._stock);
+            let cantidad = parseInt(doc.data()._stock);
             descontarStock(cantidad);
         } else {
             console.log("No such document!");
@@ -828,7 +830,7 @@ function restarStock(collection, data) {
         console.log("Error getting document:", error);
     });
 
-    function descontarStock(desc){
+    function descontarStock(desc) {
         db.collection("maestroDeArticulo").doc(data._salidaArticulo).update({
             _stock: desc - parseInt(data._salidaCantidad)
         }).then(function () {
@@ -838,18 +840,37 @@ function restarStock(collection, data) {
             console.error("Error updating document: ", error);
         });
     }
-
 }
 function registrarFirebase(colecion, data) {
-    db.collection(colecion).add(data)
-        .then(function () {
-            alert("Se registor correctamente");
-            $(`#${colecion}`).form('clear')
-        })
-        .catch(function (error) {
-            console.error("Error writing document: ", error);
-            $(`#${colecion}`).form('clear')
-        });
+    let registro = [];
+    let contenido = document.getElementById("detalleMercancia");
+    let cant = contenido.children.length;
+    for (let i = 0; i < cant; i++) {
+        let reg = null;
+        let code = contenido.children[i].dataset.id;;
+        reg = data;
+        reg._producto = document.getElementById("_producto-" + code).value;
+        reg._costo = document.getElementById("_costo-" + code).value;
+        reg._cantidad = document.getElementById("_cantidad-" + code).value;
+        reg._lote = document.getElementById("_lote-" + code).value;
+        reg._fechaVencimiento = document.getElementById("_fechaVencimiento-" + code).value;
+        reg._registroId = document.getElementById("_registroId-" + code).value;
+        registro.push(reg);
+    }
+    registro.forEach(x => {
+        db.collection(colecion).add(x)
+            .then(function () {
+                console.log("Se registor correctamente");
+                // $(`#${colecion}`).form('clear')
+            })
+            .catch(function (error) {
+                console.error("Error writing document: ", error);
+                // $(`#${colecion}`).form('clear')
+            });
+    });
+    alert("Se registro correctamente");
+    $(`#${colecion}`).form('clear');
+    document.getElementById("detalleMercancia").remove()
 }
 
 function obtenerDatosFirebase(coll) {
@@ -1009,15 +1030,92 @@ function cargarDatosFormularioRegistroMercancia() {
     getDataProveedor();
     getDataTipoDocumento();
     getDataAlmacen();
-    getProdutos();
+    // getProdutos();
 }
+// _salidaArticulo
 function cargarDatosFormularioSalidaMercancia() {
     getTipoSalida();
     getDataProveedorSalida();
     getDataTipoDocumentoSalida();
     getDataAlmacenSalida();
-    getDataArticulo();
+    // getDataArticulo();
+    getProductosSalida();
+
+    function getProductosSalida() {
+        db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+            let data = [{ _codigoArticulo: "", _nombreArticulo: "Seleccione", _id: "" }];
+            querySnapshot.forEach(function (doc) {
+                let temp = doc.data();
+                temp.id = doc.id;
+                data.push(temp);
+            });
+            data.forEach(x => {
+                let opt = document.createElement("option");
+                opt.value = x._codigoArticulo;
+                opt.innerText = x._nombreArticulo;
+                opt.dataset.precio = x._costoCompra;
+                opt.dataset.id = x.id;
+                _salidaArticulo.appendChild(opt)
+            });
+        });
+    }
+
 }
+function getArticulos(e) {
+    let listaArticulos = [];
+    db.collection("articulo")
+        .where("_registroId", "==", e.target.options[e.target.selectedIndex].dataset.id)
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                listaArticulos.push(doc.data());
+            });
+            console.log(listaArticulos);
+            modalSalida(listaArticulos);
+        })
+        .catch(function (error) {
+            console.log("Error getting documents: ", error);
+        });
+}
+function modalSalida(list) {
+    modalAlmacen.innerHTML = "";
+    modalAlmacen.innerHTML = `<div class="header">Lista de Articulos</div>
+                                <div class="content">
+                                    <table class="ui table">
+                                    <thead><th>Almacen</th><th>Lote</th><th>Cantidad</th><th>Fecha v.</th><th></th></thead>
+                                    ${list.map(x => `<tr id="${x._producto}"><td>${x._almacen}</td><td>${x._lote}</td><td>${x._cantidad}</td><td>${x._fechaVencimiento}</td><td><button class="ui button success" onclick="selectArticuloSalida(event)">Seleccionar</button></td></tr>`).join("")}
+                                    </table>
+                                </div>`;
+    $("#modalAlmacen").modal("show");
+
+}
+function selectArticuloSalida(e) {
+    let td = e.target.parentElement.parentElement.children;
+    $("#modalAlmacen").modal("hide");
+    document.getElementById("_salidaAlmacen").value = td[0].innerHTML;
+    document.getElementById("_salidaLote").value = td[1].innerHTML;
+    document.getElementById("_salidaCantidad").value = td[2].innerHTML;
+    document.getElementById("_salidaCantidad").dataset.cantidadActual = td[2].innerHTML;
+
+    $('#_salidaCantidad')
+        .popup({
+            title: ' Tener en cuenta',
+            content: "La cantidad ingresada no puede ser mayor a:" + td[2].innerHTML
+        })
+
+}
+function validarSalidaCantidad(e) {
+    let actual = parseInt(e.target.dataset.cantidadActual);
+    let input = parseInt(e.target.value);
+
+    if (input > actual) {
+        alert("El valor ingresado no puede ser mayor a" + actual)
+        e.target.value = "";
+        e.target.focus();;
+    }
+
+}
+
 let _salidaArticulo = document.getElementById("_salidaArticulo");
 function getDataArticulo() {
     db.collection("articulo").get().then(function (querySnapshot) {
@@ -1144,28 +1242,31 @@ function getDataAlmacenSalida() {
         });
     });
 }
-function getProdutos() {
-    db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
-        _producto.innerHTML = "";
-        let data = [{ _codigoArticulo: "", _nombreArticulo: "Seleccione", _id: "" }];
-        querySnapshot.forEach(function (doc) {
-            let temp = doc.data();
-            temp.id = doc.id;
-            data.push(temp);
+function getProdutos(select) {
+    if (typeof (select) !== 'undefined' && typeof (select) !== null) {
+        select.innerHTML = "";
+        db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+
+            let data = [{ _codigoArticulo: "", _nombreArticulo: "Seleccione", _id: "" }];
+            querySnapshot.forEach(function (doc) {
+                let temp = doc.data();
+                temp.id = doc.id;
+                data.push(temp);
+            });
+            data.forEach(x => {
+                let opt = document.createElement("option");
+                opt.value = x._codigoArticulo;
+                opt.innerText = x._nombreArticulo;
+                opt.dataset.precio = x._costoCompra;
+                opt.dataset.id = x.id;
+                select.appendChild(opt)
+            });
         });
-        data.forEach(x => {
-            let opt = document.createElement("option");
-            opt.value = x._codigoArticulo;
-            opt.innerText = x._nombreArticulo;
-            opt.dataset.precio = x._costoCompra;
-            opt.dataset.id = x.id;
-            _producto.appendChild(opt)
-        });
-    });
+    }
 }
 function precioActualProducto(e) {
-    _costo.value = e.target.options[e.target.selectedIndex].dataset.precio;
-    document.getElementById("_registroId").value = e.target.options[e.target.selectedIndex].dataset.id;
+    document.getElementById("_costo-" + e.target.id.split('-')[1]).value = e.target.options[e.target.selectedIndex].dataset.precio;
+    document.getElementById("_registroId-" + e.target.id.split('-')[1]).value = e.target.options[e.target.selectedIndex].dataset.id;
 }
 function actualizarCantidadMaestroArticulos(coleccion, data) {
     db.collection("maestroDeArticulo").where("_codigoArticulo", "==", data._producto).get().then(function (querySnapshot) {
@@ -1192,12 +1293,144 @@ function actualizarCantidadMaestroArticulos(coleccion, data) {
             });
     });
 }
-function formatoNumDoc(event){
+function formatoNumDoc(event) {
     let value = event.target.value;
     let formato = "00000000000000";
     let cantidad = value.length;
-    let completar = formato.substring(0,(14 -cantidad));
+    let completar = formato.substring(0, (14 - cantidad));
     let result = completar + value;
-        event.target.value = result;
-    
+    event.target.value = result;
 }
+
+
+//Agregar detalle de mercancia a ingresar
+let detalleMercancia = document.getElementById("detalleMercancia");
+let cantDetalle = 0;
+function addDetalleMercancia() {
+    let div = document.createElement('div');
+    div.className = "fields";
+    div.dataset.id = cantDetalle;
+    div.innerHTML = `<div class="field">
+                        <label>Seleccione producto</label>
+                        <select class="productos" name="_producto" id="_producto-${cantDetalle}" onchange="precioActualProducto(event)">
+
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Costo</label>
+                        <input type="text" name="_costo" id="_costo-${cantDetalle}">
+                    </div>
+                    <div class="field">
+                        <label>Cantidad</label>
+                        <input type="number" name="_cantidad" id="_cantidad-${cantDetalle}" min="0">
+                    </div>
+                    <div class="field">
+                        <label>Lote</label>
+                        <input type="text" name="_lote" id="_lote-${cantDetalle}">
+                    </div>
+                    <div class="field">
+                        <label>Fecha de vencimiento</label>
+                        <input type="date" name="_fechaVencimiento" id="_fechaVencimiento-${cantDetalle}">
+                    </div>
+                    <div class="field" hidden>
+                        <label>registro id cod prodFecha de vencimiento</label>
+                        <input type="text" name="_registroId" id="_registroId-${cantDetalle}">
+                    </div>
+                    <div class="field" >
+                    <span class="ui compact icon button" onclick="eliminarRow(event)">
+                        <i class="minus circle icon"></i>
+                    </span>
+                    </div>`;
+    detalleMercancia.append(div);
+    getProdutos(document.getElementById(`_producto-${cantDetalle}`));
+    cantDetalle++;
+
+}
+function eliminarRow(e) {
+    e.target.parentElement.parentElement.parentElement.remove()
+}
+
+let tbReporteArticulosVencidos = document.getElementById("tbReporteArticulosVencidos");
+function cargarReporteVencidos() {
+
+    let _articuloReporte = [];
+    let _maestroReporte = [];
+    db.collection("articulo")
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                _articuloReporte.push(doc.data());
+            });
+            db.collection("maestroDeArticulo")
+                .get()
+                .then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+                        let documento = doc.data();
+                        documento.idMaestro = doc.id;
+                        _maestroReporte.push(documento);
+                    });
+                    
+                    // ARMAR REPORTE
+                    let vencidos = _articuloReporte.filter(x=> new Date(x._fechaVencimiento) > new Date());
+                    let vencidosMaestro = vencidos.map(art=>
+                        `<tr>
+                            <td>Nombre articulo</td>
+                            <td>${art._lote}</td>
+                            <td>${art._almacen}</td>
+                            <td>${art._fechaVencimiento}</td>
+                            </tr>`
+                        ).join("")
+                    tbReporteArticulosVencidos.innerHTML = vencidosMaestro;
+
+                });
+
+        });
+
+
+}
+// let tbReporteArticulosVencidos = document.getElementById("tbReporteArticulosVencidos");
+let inProximosVencer = document.getElementById("inProximosVencer");
+function cargarReporteProximosVencidos() {
+debugger;
+    let _articuloReporte = [];
+    let _maestroReporte = [];
+    db.collection("articulo")
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                _articuloReporte.push(doc.data());
+            });
+            db.collection("maestroDeArticulo")
+                .get()
+                .then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+                        let documento = doc.data();
+                        documento.idMaestro = doc.id;
+                        _maestroReporte.push(documento);
+                    });
+                    
+                    // ARMAR REPORTE
+                    debugger;
+                    let vencidos = _articuloReporte.filter(x=> new Date(x._fechaVencimiento) > new Date(inProximosVencer.value));
+                    let vencidosMaestro = vencidos.map(art=>
+                        `<tr>
+                            <td>Nombre articulo</td>
+                            <td>${art._lote}</td>
+                            <td>${art._almacen}</td>
+                            <td>${art._fechaVencimiento}</td>
+                            </tr>`
+                        ).join("")
+                    tbReporteArticulosVencidos.innerHTML = vencidosMaestro;
+
+                });
+
+        });
+
+
+}
+
+function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
