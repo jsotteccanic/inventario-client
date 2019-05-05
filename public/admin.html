@@ -45,6 +45,8 @@
                         salida de mercancia</a>
                     <a class="item" data-ruta="reporteItemsVencidos" onclick="cargarVista(event)">Registro
                         Reporte items vencidos</a>
+                    <a class="item" data-ruta="formRegistroConteoManual" onclick="cargarVista(event)">Registro
+                        Conteo manual</a>
                 </div>
             </div>
             <div class="right menu">
@@ -571,6 +573,31 @@
                 <tbody id="tbReporteArticulosVencidos"></tbody>
                 <tfoot></tfoot>
             </table>
+        </div>
+        <div id="formRegistroConteoManual" hidden>
+            <div class="ui divider"></div>
+            <!-- Registro de presentacion de producto -->
+            <h3 class="ui header">Registro conteo manual por producto</h3>
+            <button class="ui success button" onclick="cargarDatosFormularioConteo()">Cargar datos al
+                formulario</button>
+            <form class="ui form" id="conteoManual">
+                <div class="fields">
+                    <div class="field">
+                        <label>Seleccione producto</label>
+                        <select type="text" name="contManuProd" id="contManuProd" >
+
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Conteo manual</label>
+                        <input type="number" name="contManuCantidad" id="contManuCantidad" min="0">
+                    </div>
+                </div>
+                <div class="ui primary submit button">Guardar</div>
+                <div class="ui error message"></div>
+            </form>
+            <!-- <hr />
+            <button class="ui primary button" onclick="obtenerDatosFirebase('presentacion')">VER REGISTROS</button> -->
         </div>
     </div>
 

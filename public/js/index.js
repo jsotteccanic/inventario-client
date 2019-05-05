@@ -498,6 +498,36 @@ $('#tipoIngreso')
             obtenerDatosFirebase(event.target.id);
         }
     });
+
+$('#conteoManual')
+    .form({
+        fields: {
+            contManuProd: {
+                identifier: 'contManuProd',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor selecciona un producto'
+                    }
+                ]
+            },
+            contManuCantidad: {
+                identifier: 'contManuCantidad',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un cantidad'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            // registrarFirebase(event.target.id, inputs);
+            // obtenerDatosFirebase(event.target.id);
+            actualizarConteoReal(inputs);
+        }
+    });
 // REGISTRO DE ARTICULO
 
 // Reglas personalizada
@@ -1346,10 +1376,11 @@ function addDetalleMercancia() {
     cantDetalle++;
 
 }
+
 function eliminarRow(e) {
     e.target.parentElement.parentElement.parentElement.remove()
 }
-
+//REPORTE VENCIDOS
 let tbReporteArticulosVencidos = document.getElementById("tbReporteArticulosVencidos");
 function cargarReporteVencidos() {
 
@@ -1369,17 +1400,17 @@ function cargarReporteVencidos() {
                         documento.idMaestro = doc.id;
                         _maestroReporte.push(documento);
                     });
-                    
+
                     // ARMAR REPORTE
-                    let vencidos = _articuloReporte.filter(x=> new Date(x._fechaVencimiento) > new Date());
-                    let vencidosMaestro = vencidos.map(art=>
+                    let vencidos = _articuloReporte.filter(x => new Date(x._fechaVencimiento) <= new Date());
+                    let vencidosMaestro = vencidos.map(art =>
                         `<tr>
                             <td>Nombre articulo</td>
                             <td>${art._lote}</td>
                             <td>${art._almacen}</td>
                             <td>${art._fechaVencimiento}</td>
                             </tr>`
-                        ).join("")
+                    ).join("")
                     tbReporteArticulosVencidos.innerHTML = vencidosMaestro;
 
                 });
@@ -1388,10 +1419,12 @@ function cargarReporteVencidos() {
 
 
 }
+
+//REPORTE PROXIMOS A VENCER
 // let tbReporteArticulosVencidos = document.getElementById("tbReporteArticulosVencidos");
 let inProximosVencer = document.getElementById("inProximosVencer");
 function cargarReporteProximosVencidos() {
-debugger;
+
     let _articuloReporte = [];
     let _maestroReporte = [];
     db.collection("articulo")
@@ -1408,18 +1441,17 @@ debugger;
                         documento.idMaestro = doc.id;
                         _maestroReporte.push(documento);
                     });
-                    
+
                     // ARMAR REPORTE
-                    debugger;
-                    let vencidos = _articuloReporte.filter(x=> new Date(x._fechaVencimiento) > new Date(inProximosVencer.value));
-                    let vencidosMaestro = vencidos.map(art=>
+                    let vencidos = _articuloReporte.filter(x => (new Date(x._fechaVencimiento) <= new Date(inProximosVencer.value) && (new Date(inProximosVencer.value) >= new Date())));
+                    let vencidosMaestro = vencidos.map(art =>
                         `<tr>
                             <td>Nombre articulo</td>
                             <td>${art._lote}</td>
                             <td>${art._almacen}</td>
                             <td>${art._fechaVencimiento}</td>
                             </tr>`
-                        ).join("")
+                    ).join("")
                     tbReporteArticulosVencidos.innerHTML = vencidosMaestro;
 
                 });
@@ -1433,4 +1465,38 @@ function addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
-  }
+}
+
+//Conteo real
+
+function actualizarConteoReal(inputs) {
+    let contManuProd = document.getElementById("contManuProd")
+    db.collection("maestroDeArticulo").doc(contManuProd.options[contManuProd.selectedIndex].dataset.id).update({
+        _conteo: inputs.contManuCantidad
+    }).then(function () {
+        console.log("Se actualizó correctamente");
+    }).catch(function (error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
+
+}
+function cargarDatosFormularioConteo() {
+    let _conteoSelect = document.getElementById("contManuProd");
+    db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+        let data = [{ _codigoArticulo: "", _nombreArticulo: "Seleccione", _id: "" }];
+        querySnapshot.forEach(function (doc) {
+            let temp = doc.data();
+            temp.id = doc.id;
+            data.push(temp);
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x._codigoArticulo;
+            opt.innerText = x._nombreArticulo;
+            opt.dataset.precio = x._costoCompra;
+            opt.dataset.id = x.id;
+            _conteoSelect.appendChild(opt)
+        });
+    });
+}
