@@ -339,10 +339,6 @@ $('#maestroDeArticulo')
             _maximo: {
                 identifier: ['_maximo', '_minimo'],
                 rules: [
-                    // {
-                    //     type: 'empty',
-                    //     prompt: 'Ingresa un valor'
-                    // },
                     {
                         type: 'minMaxValidate',
                         prompt: 'El valor máximo no puede ser menos que el mínimo'
@@ -523,9 +519,11 @@ $('#conteoManual')
         },
         onSuccess: (event, inputs) => {
             event.preventDefault();
+            debugger;
             // registrarFirebase(event.target.id, inputs);
             // obtenerDatosFirebase(event.target.id);
             actualizarConteoReal(inputs);
+            $("#conteoManual").form('clear');
         }
     });
 // REGISTRO DE ARTICULO
@@ -637,7 +635,7 @@ $('#articulo')
         },
         onSuccess: (event, inputs) => {
             event.preventDefault();
-            registrarFirebase(event.target.id, inputs);
+            registrarFirebaseArticulo(event.target.id, inputs);
             obtenerDatosFirebase(event.target.id);
             actualizarCantidadMaestroArticulos(event.target.id, inputs);
         }
@@ -841,7 +839,6 @@ $('#salidaArticulo')
         },
         onSuccess: (event, inputs) => {
             event.preventDefault();
-            debugger;
             registrarFirebase(event.target.id, inputs);
             obtenerDatosFirebase(event.target.id);
             restarStock(event.target.id, inputs);
@@ -849,29 +846,44 @@ $('#salidaArticulo')
     });
 // Funciones
 function restarStock(collection, data) {
-    db.collection("maestroDeArticulo").doc(data._salidaArticulo).get().then(function (doc) {
-        if (doc.exists) {
-            let cantidad = parseInt(doc.data()._stock);
-            descontarStock(cantidad);
-        } else {
-            console.log("No such document!");
-        }
-    }).catch(function (error) {
-        console.log("Error getting document:", error);
-    });
-
-    function descontarStock(desc) {
-        db.collection("maestroDeArticulo").doc(data._salidaArticulo).update({
-            _stock: desc - parseInt(data._salidaCantidad)
-        }).then(function () {
-            console.log("Se desconto correctamente");
-        }).catch(function (error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-        });
-    }
+    let art = document.getElementById("_salidaArticulo");
+    db.collection("maestroDeArticulo").doc(art.options[art.selectedIndex].dataset.id)
+        .update(
+            {
+                "_stock": firebase.firestore.FieldValue.increment(-data._salidaCantidad)
+            }).then(function () {
+                console.log("Se desconto correctamente");
+            }).catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+            db.collection("articulo").doc(document.getElementById("_salidaCantidad").dataset.idItem)
+            .update(
+                {
+                    "_cantidad": firebase.firestore.FieldValue.increment(-data._salidaCantidad)
+                }).then(function () {
+                    console.log("Se desconto correctamente");
+                }).catch(function (error) {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                });
+                document.getElementById("_salidaCantidad").dataset.cantidadActual = "";
+    
 }
 function registrarFirebase(colecion, data) {
+    db.collection(colecion).add(data)
+        .then(function () {
+            alert("Se registor correctamente");
+            $(`#${colecion}`).form('clear')
+        })
+        .catch(function (error) {
+            console.error("Error writing document: ", error);
+            $(`#${colecion}`).form('clear')
+        });
+}
+
+
+function registrarFirebaseArticulo(colecion, data) {
     let registro = [];
     let contenido = document.getElementById("detalleMercancia");
     let cant = contenido.children.length;
@@ -881,7 +893,7 @@ function registrarFirebase(colecion, data) {
         reg = data;
         reg._producto = document.getElementById("_producto-" + code).value;
         reg._costo = document.getElementById("_costo-" + code).value;
-        reg._cantidad = document.getElementById("_cantidad-" + code).value;
+        reg._cantidad = parseInt(document.getElementById("_cantidad-" + code).value);
         reg._lote = document.getElementById("_lote-" + code).value;
         reg._fechaVencimiento = document.getElementById("_fechaVencimiento-" + code).value;
         reg._registroId = document.getElementById("_registroId-" + code).value;
@@ -960,7 +972,6 @@ function editarRegistro(e, coll) {
                 document.getElementById(x).value = doc.data()[x]
             })
         } else {
-            // doc.data() will be undefined in this case
             console.log("No such document!");
         }
     }).catch(function (error) {
@@ -1098,7 +1109,9 @@ function getArticulos(e) {
         .get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
-                listaArticulos.push(doc.data());
+                let temp = doc.data();
+                temp._idItem = doc.id;
+                listaArticulos.push(temp);
             });
             console.log(listaArticulos);
             modalSalida(listaArticulos);
@@ -1113,7 +1126,7 @@ function modalSalida(list) {
                                 <div class="content">
                                     <table class="ui table">
                                     <thead><th>Almacen</th><th>Lote</th><th>Cantidad</th><th>Fecha v.</th><th></th></thead>
-                                    ${list.map(x => `<tr id="${x._producto}"><td>${x._almacen}</td><td>${x._lote}</td><td>${x._cantidad}</td><td>${x._fechaVencimiento}</td><td><button class="ui button success" onclick="selectArticuloSalida(event)">Seleccionar</button></td></tr>`).join("")}
+                                    ${list.map(x => `<tr id="${x._producto}"><td>${x._almacen}</td><td>${x._lote}</td><td>${x._cantidad}</td><td>${x._fechaVencimiento}</td><td><button data-idItem="${x._idItem}" class="ui button success" onclick="selectArticuloSalida(event)">Seleccionar</button></td></tr>`).join("")}
                                     </table>
                                 </div>`;
     $("#modalAlmacen").modal("show");
@@ -1126,6 +1139,7 @@ function selectArticuloSalida(e) {
     document.getElementById("_salidaLote").value = td[1].innerHTML;
     document.getElementById("_salidaCantidad").value = td[2].innerHTML;
     document.getElementById("_salidaCantidad").dataset.cantidadActual = td[2].innerHTML;
+    document.getElementById("_salidaCantidad").dataset.idItem = e.target.dataset.iditem;
 
     $('#_salidaCantidad')
         .popup({
@@ -1472,7 +1486,7 @@ function addDays(date, days) {
 function actualizarConteoReal(inputs) {
     let contManuProd = document.getElementById("contManuProd")
     db.collection("maestroDeArticulo").doc(contManuProd.options[contManuProd.selectedIndex].dataset.id).update({
-        _conteo: inputs.contManuCantidad
+        _conteo: parseInt(inputs.contManuCantidad)
     }).then(function () {
         console.log("Se actualizó correctamente");
     }).catch(function (error) {
@@ -1497,6 +1511,46 @@ function cargarDatosFormularioConteo() {
             opt.dataset.precio = x._costoCompra;
             opt.dataset.id = x.id;
             _conteoSelect.appendChild(opt)
+        });
+    });
+}
+
+//REPORTE DE EXACTITUD DE INVENTARIO
+
+function exactitudInventario() {
+
+    let head = document.getElementById("headExactitudInv");
+    head.innerHTML = "";
+    head.innerHTML = `<tr><th>Nombre</th><th>Stock</th><th>Conteo</th><th>Exac Inv (dif)</th>`;
+    let cuerpo = document.getElementById("bodyExactitudInv");
+    cuerpo.innerHTML = "";
+    db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            cuerpo.innerHTML += `<tr scope="row" class="${(parseInt(doc.data()._stock)) !== (parseInt(doc.data()._conteo)) ? "negative" : ""}">
+                                    <td>${doc.data()._nombreArticulo}</td>
+                                    <td>${doc.data()._stock}</td>
+                                    <td>${doc.data()._conteo}</td>
+                                    <td>${((parseInt(doc.data()._stock)-parseInt(doc.data()._conteo))/parseInt(doc.data()._stock))*100} %</td>
+                                </tr>`;
+        });
+    });
+}
+
+function productosVencidos() {
+
+    let head = document.getElementById("headProdVenc");
+    head.innerHTML = "";
+    head.innerHTML = `<tr><th>Nombre</th><th>Stock</th><th>Conteo</th><th>Exac Inv (dif)</th>`;
+    let cuerpo = document.getElementById("bodyProdVenc");
+    cuerpo.innerHTML = "";
+    db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            cuerpo.innerHTML += `<tr scope="row" class="${(parseInt(doc.data()._stock)) !== (parseInt(doc.data()._conteo)) ? "negative" : ""}">
+                                    <td>${doc.data()._nombreArticulo}</td>
+                                    <td>${doc.data()._stock}</td>
+                                    <td>${doc.data()._conteo}</td>
+                                    <td>${((parseInt(doc.data()._stock)-parseInt(doc.data()._conteo))/parseInt(doc.data()._stock))*100} %</td>
+                                </tr>`;
         });
     });
 }

@@ -47,6 +47,9 @@
                         Reporte items vencidos</a>
                     <a class="item" data-ruta="formRegistroConteoManual" onclick="cargarVista(event)">Registro
                         Conteo manual</a>
+                    <a class="item" data-ruta="formExactitudInventario" onclick="cargarVista(event)">Conteo de
+                        inventario</a>
+                    <a class="item" data-ruta="formProductosVencidos" onclick="cargarVista(event)">Indice Prod. Venc.</a>
                 </div>
             </div>
             <div class="right menu">
@@ -327,14 +330,15 @@
             <form class="ui form" id="tipoSalida">
                 <div class="fields">
                     <div class="field">
+                        <label>Número de correlativo</label>
+                        <input type="number" name="correlativoSalida" id="correlativoSalida">
+                    </div>
+                    <div class="field">
                         <label>Nombre de tipo de salida</label>
                         <input type="text" name="nombreTipoSalida" id="nombreTipoSalida"
                             placeholder="Nombre tipo salida">
                     </div>
-                    <div class="field">
-                        <label>Número de correlativo</label>
-                        <input type="number" name="correlativoSalida" id="correlativoSalida">
-                    </div>
+
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
@@ -349,13 +353,13 @@
             <form class="ui form" id="tipoIngreso">
                 <div class="fields">
                     <div class="field">
+                        <label>Número de correlativo</label>
+                        <input type="number" name="correlativoIngreso" id="correlativoIngreso">
+                    </div>
+                    <div class="field">
                         <label>Nombre de tipo de ingreso</label>
                         <input type="text" name="nombreTipoIngreso" id="nombreTipoIngreso"
                             placeholder="Nombre tipo ingreso">
-                    </div>
-                    <div class="field">
-                        <label>Número de correlativo</label>
-                        <input type="number" name="correlativoIngreso" id="correlativoIngreso">
                     </div>
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
@@ -559,7 +563,7 @@
         </div>
         <div id="reporteItemsVencidos" hidden>
             <h1>Reporte vencidos</h1>
-          
+
             <button onclick="cargarReporteVencidos()">Cargar Reporte</button>
             <input type="date" id="inProximosVencer">
             <button onclick="cargarReporteProximosVencidos()">Cargar Reporte</button>
@@ -584,7 +588,7 @@
                 <div class="fields">
                     <div class="field">
                         <label>Seleccione producto</label>
-                        <select type="text" name="contManuProd" id="contManuProd" >
+                        <select type="text" name="contManuProd" id="contManuProd">
 
                         </select>
                     </div>
@@ -598,6 +602,28 @@
             </form>
             <!-- <hr />
             <button class="ui primary button" onclick="obtenerDatosFirebase('presentacion')">VER REGISTROS</button> -->
+        </div>
+        <div id="formExactitudInventario" hidden>
+            <div class="ui divider"></div>
+            <!-- Registro de presentacion de producto -->
+            <h3 class="ui header">Exactitud de inventario</h3>
+            <button class="ui success button" onclick="exactitudInventario()">Exactitud de inventario</button>
+            <hr>
+            <table class="ui table">
+                <thead id="headExactitudInv"></thead>
+                <tbody id="bodyExactitudInv"></tbody>
+            </table>
+        </div>
+        <div id="formProductosVencidos" hidden>
+            <div class="ui divider"></div>
+            <!-- Registro de presentacion de producto -->
+            <h3 class="ui header">Indice productos vencidos</h3>
+            <button class="ui success button" onclick="productosVencidos()">Indice prod venc</button>
+            <hr>
+            <table class="ui table">
+                <thead id="headProdVenc"></thead>
+                <tbody id="bodyProdVenc"></tbody>
+            </table>
         </div>
     </div>
 
