@@ -1577,7 +1577,7 @@ function productosVencidos() {
                 <td>${x.nombre}</td>
                 <td>${x.stock}</td>
                 <td>${x.cantVenc}</td>
-                <td>${(parseInt(x.cantVenc) - parseInt(x.stock)) * 100} %</td>
+                <td>${(parseInt(x.cantVenc)/parseInt(x.stock)) * 100} %</td>
             </tr>`;
             }) 
         });
