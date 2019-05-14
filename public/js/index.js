@@ -1575,9 +1575,9 @@ function productosVencidos() {
             cuerpo.innerHTML +=  nresult.map(x=>{
                 return `<tr scope="row" >
                 <td>${x.nombre}</td>
-                <td>${x._stock}</td>
+                <td>${x.stock}</td>
                 <td>${x.cantVenc}</td>
-                <td>${(parseInt(x.cantVenc) - parseInt(x._stock)) * 100} %</td>
+                <td>${(parseInt(x.cantVenc) - parseInt(x.stock)) * 100} %</td>
             </tr>`;
             }) 
         });
