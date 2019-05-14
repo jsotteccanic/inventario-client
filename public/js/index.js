@@ -857,18 +857,18 @@ function restarStock(collection, data) {
                 // The document probably doesn't exist.
                 console.error("Error updating document: ", error);
             });
-            db.collection("articulo").doc(document.getElementById("_salidaCantidad").dataset.idItem)
-            .update(
-                {
-                    "_cantidad": firebase.firestore.FieldValue.increment(-data._salidaCantidad)
-                }).then(function () {
-                    console.log("Se desconto correctamente");
-                }).catch(function (error) {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
-                document.getElementById("_salidaCantidad").dataset.cantidadActual = "";
-    
+    db.collection("articulo").doc(document.getElementById("_salidaCantidad").dataset.idItem)
+        .update(
+            {
+                "_cantidad": firebase.firestore.FieldValue.increment(-data._salidaCantidad)
+            }).then(function () {
+                console.log("Se desconto correctamente");
+            }).catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+    document.getElementById("_salidaCantidad").dataset.cantidadActual = "";
+
 }
 function registrarFirebase(colecion, data) {
     db.collection(colecion).add(data)
@@ -1530,7 +1530,7 @@ function exactitudInventario() {
                                     <td>${doc.data()._nombreArticulo}</td>
                                     <td>${doc.data()._stock}</td>
                                     <td>${doc.data()._conteo}</td>
-                                    <td>${((parseInt(doc.data()._stock)-parseInt(doc.data()._conteo))/parseInt(doc.data()._stock))*100} %</td>
+                                    <td>${((parseInt(doc.data()._stock) - parseInt(doc.data()._conteo)) / parseInt(doc.data()._stock)) * 100} %</td>
                                 </tr>`;
         });
     });
@@ -1540,17 +1540,47 @@ function productosVencidos() {
 
     let head = document.getElementById("headProdVenc");
     head.innerHTML = "";
-    head.innerHTML = `<tr><th>Nombre</th><th>Stock</th><th>Conteo</th><th>Exac Inv (dif)</th>`;
+    head.innerHTML = `<tr><th>Nombre</th><th>Stock</th><th>Can Venc</th><th>Exac Inv (dif)</th>`;
     let cuerpo = document.getElementById("bodyProdVenc");
     cuerpo.innerHTML = "";
+    let maestroArticuloVencidos = [];
+    let listaArticuloVencidos = [];
     db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-            cuerpo.innerHTML += `<tr scope="row" class="${(parseInt(doc.data()._stock)) !== (parseInt(doc.data()._conteo)) ? "negative" : ""}">
-                                    <td>${doc.data()._nombreArticulo}</td>
-                                    <td>${doc.data()._stock}</td>
-                                    <td>${doc.data()._conteo}</td>
-                                    <td>${((parseInt(doc.data()._stock)-parseInt(doc.data()._conteo))/parseInt(doc.data()._stock))*100} %</td>
-                                </tr>`;
+            let temp = doc.data();
+            temp.id = doc.id;
+            maestroArticuloVencidos.push(temp);
         });
+        db.collection("articulo").get().then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                let temp = doc.data();
+                temp.id = doc.id;
+                listaArticuloVencidos.push(temp);
+            });
+            let vencidos = listaArticuloVencidos.filter(x => {
+                return new Date(x._fechaVencimiento) <= new Date()
+            })
+
+            let result = maestroArticuloVencidos.map(x => {
+                let venc = vencidos.find(y => x.id == y._registroId);
+                if (venc != undefined) {
+                    return { nombre: x._nombreArticulo, stock: x._stock, cantVenc: (venc.length > 0) ? venc.reduce((a, b) => { return a + b._cantidad }, 0) : venc._cantidad }
+                } else {
+                    return null
+                }
+
+            })
+            let nresult = result.filter(x => x != null)
+            console.log(nresult);
+            cuerpo.innerHTML +=  nresult.map(x=>{
+                return `<tr scope="row" >
+                <td>${x.nombre}</td>
+                <td>${x._stock}</td>
+                <td>${x.cantVenc}</td>
+                <td>${(parseInt(x.cantVenc) - parseInt(x._stock)) * 100} %</td>
+            </tr>`;
+            }) 
+        });
+
     });
 }
