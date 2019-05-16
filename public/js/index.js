@@ -871,6 +871,11 @@ function restarStock(collection, data) {
 
 }
 function registrarFirebase(colecion, data) {
+    if (colecion == "maestroDeArticulo") {
+        data._maximo = parseInt(data._maximo);
+        data._minimo = parseInt(data._minimo);
+        data._stock = parseInt(data._stock);
+    }
     db.collection(colecion).add(data)
         .then(function () {
             alert("Se registor correctamente");
@@ -1572,15 +1577,51 @@ function productosVencidos() {
             })
             let nresult = result.filter(x => x != null)
             console.log(nresult);
-            cuerpo.innerHTML +=  nresult.map(x=>{
+            cuerpo.innerHTML += nresult.map(x => {
                 return `<tr scope="row" >
                 <td>${x.nombre}</td>
                 <td>${x.stock}</td>
                 <td>${x.cantVenc}</td>
-                <td>${(parseInt(x.cantVenc)/parseInt(x.stock)) * 100} %</td>
+                <td>${(parseInt(x.cantVenc) / parseInt(x.stock)) * 100} %</td>
             </tr>`;
-            }) 
+            })
         });
 
+    });
+}
+
+function productosConStock() {
+    let head = document.getElementById("headProdStoc");
+    head.innerHTML = "";
+    head.innerHTML = `<tr><th>Nombre</th><th>Stock</th>`;
+    let cuerpo = document.getElementById("bodyProdStoc");
+    cuerpo.innerHTML = "";
+    db.collection("maestroDeArticulo").where("_stock", ">", 0).get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            cuerpo.innerHTML += `<tr scope="row" >
+                <td>${doc.data()._nombreArticulo}</td>
+                <td>${doc.data()._stock}</td>
+            </tr>`;
+        });
+    });
+}
+
+function productosConStockMinimo() {
+    let head = document.getElementById("headProdStocMin");
+    head.innerHTML = "";
+    head.innerHTML = `<tr><th>Nombre</th><th>Stock min.</th><th>Stock</th>`;
+    let cuerpo = document.getElementById("bodyProdStocMin");
+    cuerpo.innerHTML = "";
+    db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            if (doc.data()._stock <= doc.data()._minimo) {
+                cuerpo.innerHTML += `<tr scope="row" >
+                <td>${doc.data()._nombreArticulo}</td>
+                <td>${doc.data()._minimo}</td>
+                <td>${doc.data()._stock}</td>
+            </tr>`;
+            }
+
+        });
     });
 }

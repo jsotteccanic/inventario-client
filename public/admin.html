@@ -21,7 +21,7 @@
                 <img class="ui centered mini image" src="./img/logo.svg" width="40">
             </a>
             <div class="ui dropdown item">
-                Opciones <i class="dropdown icon"></i>
+                Registros <i class="dropdown icon"></i>
                 <div class="menu">
                     <a class="item" data-ruta="formRegistroPresentacionProducto" onclick="cargarVista(event)">Registro
                         presentación de Productos</a>
@@ -49,7 +49,16 @@
                         Conteo manual</a>
                     <a class="item" data-ruta="formExactitudInventario" onclick="cargarVista(event)">Conteo de
                         inventario</a>
-                    <a class="item" data-ruta="formProductosVencidos" onclick="cargarVista(event)">Indice Prod. Venc.</a>
+                </div>
+            </div>
+            <div class="ui dropdown item">
+                Reportes <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" data-ruta="formProductosVencidos" onclick="cargarVista(event)">Indice Prod.
+                        Venc.</a>
+                    <a class="item" data-ruta="formProductosConStock" onclick="cargarVista(event)">Stock > 0</a>
+                    <a class="item" data-ruta="formProductosStockMinimo" onclick="cargarVista(event)">Stock minimo</a>
+
                 </div>
             </div>
             <div class="right menu">
@@ -403,7 +412,6 @@
 
                         </select>
                     </div>
-
                 </div>
                 <div class="addDetalle">
                     <span class="ui compact icon button" onclick="addDetalleMercancia()">
@@ -623,6 +631,28 @@
             <table class="ui table">
                 <thead id="headProdVenc"></thead>
                 <tbody id="bodyProdVenc"></tbody>
+            </table>
+        </div>
+        <div id="formProductosConStock" hidden>
+            <div class="ui divider"></div>
+            <!-- Registro de presentacion de producto -->
+            <h3 class="ui header">Stock</h3>
+            <button class="ui success button" onclick="productosConStock()">Ver stock</button>
+            <hr>
+            <table class="ui table">
+                <thead id="headProdStoc"></thead>
+                <tbody id="bodyProdStoc"></tbody>
+            </table>
+        </div>
+        <div id="formProductosStockMinimo" hidden>
+            <div class="ui divider"></div>
+            <!-- Registro de presentacion de producto -->
+            <h3 class="ui header">Productos a comprar</h3>
+            <button class="ui success button" onclick="productosConStockMinimo()">Ver stock minimo</button>
+            <hr>
+            <table class="ui table">
+                <thead id="headProdStocMin"></thead>
+                <tbody id="bodyProdStocMin"></tbody>
             </table>
         </div>
     </div>
