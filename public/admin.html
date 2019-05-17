@@ -56,8 +56,10 @@
                 <div class="menu">
                     <a class="item" data-ruta="formProductosVencidos" onclick="cargarVista(event)">Indice Prod.
                         Venc.</a>
+                    <a class="item" data-ruta="formProductosConteo" onclick="cargarVista(event)">Exactitud</a>
                     <a class="item" data-ruta="formProductosConStock" onclick="cargarVista(event)">Stock > 0</a>
                     <a class="item" data-ruta="formProductosStockMinimo" onclick="cargarVista(event)">Stock minimo</a>
+                    <a class="item" data-ruta="formRegistroUsuario" onclick="cargarVista(event)">Crear Usuario</a>
 
                 </div>
             </div>
@@ -522,10 +524,12 @@
                         <label>Fecha de salida</label>
                         <input type="date" name="_salidaFechaRegistroArticulo" id="_salidaFechaRegistroArticulo">
                     </div>
+                    <!-- 
                     <div class="field">
                         <label>Correlativo</label>
                         <input type="text" name="_salidaFechaSalida" id="_salidaFechaSalida">
                     </div>
+                     -->
                 </div>
                 <div class="fields">
                     <div class="field">
@@ -654,6 +658,50 @@
                 <thead id="headProdStocMin"></thead>
                 <tbody id="bodyProdStocMin"></tbody>
             </table>
+        </div>
+        <div id="formProductosConteo" hidden>
+            <div class="ui divider"></div>
+            <!-- Registro de presentacion de producto -->
+            <h3 class="ui header">Productos a comprar</h3>
+            <button class="ui success button" onclick="productosConteo()">Ver stock minimo</button>
+            <hr>
+            <table class="ui table">
+                <thead id="headProdConteo"></thead>
+                <tbody id="bodyProdConteo"></tbody>
+            </table>
+        </div>
+        <div id="formRegistroUsuario" hidden>
+            <div class="ui divider"></div>
+            <!-- REGISTRAR TIPO DE SALIDA -->
+            <h3 class="ui header">Registro de usuario</h3>
+            <form class="ui form" id="tipoSalida">
+                <div class="fields">
+                    <div class="field">
+                        <label>Nivel</label>
+                        <select id="nivel">
+                            <option>Selecciona</option>
+                            <option value="admin">admin</option>
+                            <option value="usuario">usuario</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Correo</label>
+                        <input type="text" name="correoUser" id="correoUser">
+                    </div>
+                    <div class="field">
+                        <label>Contraseña</label>
+                        <input type="text" name="pw1" id="pw1" placeholder="************">
+                    </div>
+                    <div class="field">
+                        <label>Repite contraseña</label>
+                        <input type="text" name="pw2" id="pw2" placeholder="************">
+                    </div>
+                </div>
+
+                <div class="ui primary submit button">REGISTRAR</div>
+                <div class="ui error message"></div>
+            </form>
+            <!-- <button class="ui primary button" onclick="obtenerDatosFirebase('tipoSalida')">VER REGISTROS</button> -->
         </div>
     </div>
 

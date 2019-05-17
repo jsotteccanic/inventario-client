@@ -844,6 +844,62 @@ $('#salidaArticulo')
             restarStock(event.target.id, inputs);
         }
     });
+
+$('#formRegistroUsuario')
+    .form({
+        fields: {
+            nivel: {
+                identifier: 'nivel',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Seleccione un nivel'
+                    }
+                ]
+            },
+            correoUser: {
+                identifier: 'correoUser',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Por favor ingresa un correo electronico'
+                    }
+                ]
+            },
+            pw1: {
+                identifier: 'pw1',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa una contraseña'
+                    },
+                    {
+                        type: 'match[pw2]',
+                        prompt: 'Las contraseñas no coinciden'
+                    }
+                ]
+            },
+            pw2: {
+                identifier: 'pw2',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Ingresa una contraseña'
+                    },
+                    {
+                        type: 'match[pw1]',
+                        prompt: 'Las contraseñas no coinciden'
+                    }
+                ]
+            }
+        },
+        onSuccess: (event, inputs) => {
+            event.preventDefault();
+            crearUsuario(inputs);
+            $("#conteoManual").form('clear');
+        }
+    });
+
 // Funciones
 function restarStock(collection, data) {
     let art = document.getElementById("_salidaArticulo");
@@ -1609,7 +1665,7 @@ function productosConStock() {
 function productosConStockMinimo() {
     let head = document.getElementById("headProdStocMin");
     head.innerHTML = "";
-    head.innerHTML = `<tr><th>Nombre</th><th>Stock min.</th><th>Stock</th>`;
+    head.innerHTML = `<tr><th>Nombre</th><th>Stock min.</th><th>Stock</th><th>maximo</th><th>Comprar</th>`;
     let cuerpo = document.getElementById("bodyProdStocMin");
     cuerpo.innerHTML = "";
     db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
@@ -1619,9 +1675,55 @@ function productosConStockMinimo() {
                 <td>${doc.data()._nombreArticulo}</td>
                 <td>${doc.data()._minimo}</td>
                 <td>${doc.data()._stock}</td>
+                <td>${doc.data()._maximo}</td>
+                <td>${(doc.data()._maximo - doc.data()._stock)}</td>
             </tr>`;
             }
 
         });
     });
+}
+
+function productosConteo() {
+    let head = document.getElementById("headProdConteo");
+    head.innerHTML = "";
+    head.innerHTML = `<tr><th>Nombre</th><th>Stock.</th><th>Conteo</th><th>Dif.</th><th>%</th>`;
+    let cuerpo = document.getElementById("bodyProdConteo");
+    cuerpo.innerHTML = "";
+    db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            if (doc.data()._stock != doc.data()._conteo) {
+                cuerpo.innerHTML += `<tr scope="row" >
+                <td>${doc.data()._nombreArticulo}</td>
+                <td>${doc.data()._stock}</td>
+                <td>${doc.data()._conteo}</td>
+                <td>${(doc.data()._stock - doc.data()._conteo)}</td>
+                <td>${(((doc.data()._stock - doc.data()._conteo) / doc.data()._stock) * 100).toFixed(2)} %</td>
+            </tr>`;
+            }
+
+        });
+    });
+}
+
+function crearUsuario(data) {
+    firebase.auth().createUserWithEmailAndPassword(data.correoUser, data.pw1)
+        .then(x => {
+            console.log(x)
+            let user = firebase.auth().currentUser;
+            user.updateProfile({
+                displayName: data.nivel
+            }).then(function () {
+                alert("La cuenta fué creada");
+            }).catch(function (error) {
+                alert("¡Algo salió mal! Por favor intentar nuevamente");
+                console.log(error);
+            });
+        })
+        .catch(function (error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+        });
+
 }
