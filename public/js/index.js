@@ -519,7 +519,6 @@ $('#conteoManual')
         },
         onSuccess: (event, inputs) => {
             event.preventDefault();
-            debugger;
             // registrarFirebase(event.target.id, inputs);
             // obtenerDatosFirebase(event.target.id);
             actualizarConteoReal(inputs);
@@ -1132,6 +1131,7 @@ function cargarDatosFormularioRegistroMercancia() {
     getDataProveedor();
     getDataTipoDocumento();
     getDataAlmacen();
+    getTipoIngreso();
     // getProdutos();
 }
 // _salidaArticulo
@@ -1251,6 +1251,22 @@ function getTipoSalida() {
             opt.value = x.correlativoSalida;
             opt.innerText = x.nombreTipoSalida;
             _salidaTipoSalida.appendChild(opt)
+        });
+    });
+}
+let _TipoIngreso = document.getElementById("_TipoIngreso");
+function getTipoIngreso() {
+    db.collection("tipoIngreso").get().then(function (querySnapshot) {
+        _TipoIngreso.innerHTML = "";
+        let data = [{ correlativoIngreso: "", nombreTipoIngreso: "Seleccione" }];
+        querySnapshot.forEach(function (doc) {
+            data.push(doc.data());
+        });
+        data.forEach(x => {
+            let opt = document.createElement("option");
+            opt.value = x.correlativoIngreso;
+            opt.innerText = x.nombreTipoIngreso;
+            _TipoIngreso.appendChild(opt)
         });
     });
 }
