@@ -1016,7 +1016,24 @@ function obtenerDatosFirebase(coll) {
         });
     });
 }
+function listarMaestroArticulo() {
+    let thead = document.getElementById("headResult");
+    thead.innerHTML = "<th>Cod. Articulo</th><th>Nombre artículo</th><th>Laboratorio</th><th>Costo compra</th><th>Opciones</th>";
+    let tbody = document.getElementById("bodyResutl");
+    tbody.innerHTML = "";
+    let result = [];
+    db.collection('maestroDeArticulo').orderBy('_nombreArticulo').get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            let nDoc = doc.data();
+            nDoc.id = doc.id;
+            result.push(nDoc);
+        });
 
+        tbody.innerHTML = result.map(x=>(
+            `<tr><td>${x._codigoArticulo}</td><td>${x._nombreArticulo}</td><td>${x._laboratorio}</td><td>${x._costoCompra}</td><td><i class="trash icon" onclick="eliminarRegistro(event,'maestroDeArticulo')"></i><i class="edit icon" onclick="editarRegistro(event,'maestroDeArticulo')"></i></td></tr>`
+        )).join("");
+    });
+}
 function eliminarRegistro(e, coll) {
     db.collection(coll).doc(e.target.parentElement.parentElement.id).delete().then(function () {
         alert("El documento se eliminó correctamente");

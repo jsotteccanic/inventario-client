@@ -332,7 +332,8 @@
                 <div class="ui error message"></div>
             </form>
             <hr />
-            <button class="ui primary button" onclick="obtenerDatosFirebase('maestroDeArticulo')">VER REGISTROS</button>
+            <button class="ui primary button" onclick="listarMaestroArticulo('maestroDeArticulo')">VER
+                REGISTROS</button>
         </div>
         <div id="formRegistroTipoSalida" hidden>
             <div class="ui divider"></div>
@@ -387,12 +388,12 @@
                 Mercancía</button>
             <form class="ui form" id="articulo">
                 <div class="fields">
-                        <div class="field">
-                                <label>Tipo Entrada</label>
-                                <select name="_TipoIngreso" id="_TipoIngreso">
-        
-                                </select>
-                            </div>
+                    <div class="field">
+                        <label>Tipo Entrada</label>
+                        <select name="_TipoIngreso" id="_TipoIngreso">
+
+                        </select>
+                    </div>
                     <div class="field">
                         <label>Proveedor</label>
                         <select name="_proveedor" id="_proveedor">
@@ -571,12 +572,11 @@
             <button class="ui primary button" onclick="obtenerDatosFirebase('salidaArticulo')">VER REGISTROS</button>
         </div>
         <div class="ui divider"></div>
-        <div id="tablaContainer" style="overflow-x: auto">
-            <table class="ui celled padded table">
+        <div id="tablaContainer" style="height: 600px; border:1px solid red">
+            <table class="ui table">
                 <thead id="headResult">
                 </thead>
                 <tbody id="bodyResutl">
-
                 </tbody>
             </table>
         </div>
