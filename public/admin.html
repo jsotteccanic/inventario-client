@@ -47,8 +47,7 @@
                         Reporte items vencidos</a>
                     <a class="item" data-ruta="formRegistroConteoManual" onclick="cargarVista(event)">Registro
                         Conteo manual</a>
-                    <a class="item" data-ruta="formExactitudInventario" onclick="cargarVista(event)">Conteo de
-                        inventario</a>
+                    <a class="item" data-ruta="formExactitudInventario" onclick="cargarVista(event)">Exactitud de inventario</a>
                 </div>
             </div>
             <div class="ui dropdown item">
@@ -56,7 +55,7 @@
                 <div class="menu">
                     <a class="item" data-ruta="formProductosVencidos" onclick="cargarVista(event)">Indice Prod.
                         Venc.</a>
-                    <a class="item" data-ruta="formProductosConteo" onclick="cargarVista(event)">Exactitud</a>
+                    <a class="item" data-ruta="formProductosConteo" onclick="cargarVista(event)">Productos a comprar</a>
                     <a class="item" data-ruta="formProductosConStock" onclick="cargarVista(event)">Stock > 0</a>
                     <a class="item" data-ruta="formProductosStockMinimo" onclick="cargarVista(event)">Stock minimo</a>
                     <a class="item" data-ruta="formRegistroUsuario" onclick="cargarVista(event)">Crear Usuario</a>
@@ -572,7 +571,7 @@
             <button class="ui primary button" onclick="obtenerDatosFirebase('salidaArticulo')">VER REGISTROS</button>
         </div>
         <div class="ui divider"></div>
-        <div id="tablaContainer" style="height: 600px; border:1px solid red">
+        <div id="tablaContainer">
             <table class="ui table">
                 <thead id="headResult">
                 </thead>

@@ -1686,12 +1686,15 @@ function productosConStock() {
     let cuerpo = document.getElementById("bodyProdStoc");
     cuerpo.innerHTML = "";
     db.collection("maestroDeArticulo").where("_stock", ">", 0).get().then(function (querySnapshot) {
+        let temp= [];
         querySnapshot.forEach(function (doc) {
-            cuerpo.innerHTML += `<tr scope="row" >
+            temp.push(`<tr scope="row" >
                 <td>${doc.data()._nombreArticulo}</td>
                 <td>${doc.data()._stock}</td>
-            </tr>`;
+            </tr>`);
         });
+        temp.sort();
+        cuerpo.innerHTML = temp.join("");
     });
 }
 
