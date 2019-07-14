@@ -1,6 +1,26 @@
+var db = firebase.firestore();
 // // Ejemplo de 
 let vistaActual;
 let formContainer = document.getElementById("formulario");
+// MAESTROS DATA
+const MaestroTipoRegistro = [];
+const MaestroTipoSalida = [];
+db.collection('tipoIngreso').get().then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+        let nDoc = doc.data();
+        nDoc.id = doc.id;
+        MaestroTipoRegistro.push(nDoc);
+    })
+});
+db.collection('tipoSalida').get().then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+        let nDoc = doc.data();
+        nDoc.id = doc.id;
+        MaestroTipoSalida.push(nDoc);
+    })
+});
+
+// FIN MAESTROS DATA
 
 function cargarVista(e) {
     headResult.innerHTML = "";
@@ -15,7 +35,7 @@ function cargarVista(e) {
     }
 }
 
-var db = firebase.firestore();
+
 
 // vista admin consulta de datos
 let opt = document.getElementById("selectColeccion");
@@ -839,7 +859,8 @@ $('#salidaArticulo')
         onSuccess: (event, inputs) => {
             event.preventDefault();
             registrarFirebase(event.target.id, inputs);
-            obtenerDatosFirebase(event.target.id);
+            // obtenerDatosFirebase(event.target.id);
+            listarSalidaMercancia();
             restarStock(event.target.id, inputs);
         }
     });
@@ -926,6 +947,7 @@ function restarStock(collection, data) {
 
 }
 function registrarFirebase(colecion, data) {
+    debugger;
     if (colecion == "maestroDeArticulo") {
         data._maximo = parseInt(data._maximo);
         data._minimo = parseInt(data._minimo);
@@ -1029,9 +1051,88 @@ function listarMaestroArticulo() {
             result.push(nDoc);
         });
 
-        tbody.innerHTML = result.map(x=>(
+        tbody.innerHTML = result.map(x => (
             `<tr><td>${x._codigoArticulo}</td><td>${x._nombreArticulo}</td><td>${x._laboratorio}</td><td>${x._costoCompra}</td><td><i class="trash icon" onclick="eliminarRegistro(event,'maestroDeArticulo')"></i><i class="edit icon" onclick="editarRegistro(event,'maestroDeArticulo')"></i></td></tr>`
         )).join("");
+    });
+}
+function listarRegistrosMercancia() {
+    let thead = document.getElementById("headResult");
+    thead.innerHTML = "<th>Fecha de registro</th><th>Nro documento</th><th>tipo de ingreso</th><th>proveedor</th><th>cantidad</th><th>Fecha venc</th><th>Opciones</th>";
+    let tbody = document.getElementById("bodyResutl");
+    tbody.innerHTML = "";
+    let listaArticulos = [];
+    let listaMaestro = [];
+    db.collection('articulo').orderBy('_fechaRegistroArticulo').get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            let nDoc = doc.data();
+            nDoc.id = doc.id;
+            listaArticulos.push(nDoc);
+        });
+        db.collection("maestroDeArticulo")
+            .get()
+            .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    let documento = doc.data();
+                    documento.idMaestro = doc.id;
+                    listaMaestro.push(documento);
+                });
+                // ARMAR REPORTE
+                let listaRegistroMercancia = listaArticulos.map(art => {
+                    let maestroFiltrado = listaMaestro.filter(x => x.idMaestro == art._registroId);
+                    return `<tr id='${art.id}'>
+                    <td>${art._fechaRegistroArticulo}</td>
+                    <td>${art._numeroDocumento}</td>
+                    <td>${MaestroTipoRegistro.filter(x => x.correlativoIngreso == art._TipoIngreso)[0].nombreTipoIngreso}</td>
+                    <td>${maestroFiltrado[0]._laboratorio}</td>
+                    <td>${art._cantidad}</td>
+                    <td>${art._fechaVencimiento}</td>
+                    <td><i class="trash icon" onclick="eliminarRegistro(event,'articulo')"></i><i class="edit icon" onclick="editarRegistro(event,'articulo')"></i></td>
+                    </tr>`
+                }).join("");
+                tbody.innerHTML = listaRegistroMercancia;
+            });
+
+    });
+}
+
+function listarSalidaMercancia() {
+    let thead = document.getElementById("headResult");
+    thead.innerHTML = "<th>Fecha de registro</th><th>Nro documento</th><th>tipo de ingreso</th><th>proveedor</th><th>cantidad</th><th>Opciones</th>";
+    let tbody = document.getElementById("bodyResutl");
+    tbody.innerHTML = "";
+    let listaArticulos = [];
+    let listaMaestro = [];
+    db.collection('salidaArticulo').orderBy('_salidaFechaRegistroArticulo').get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            let nDoc = doc.data();
+            nDoc.id = doc.id;
+            listaArticulos.push(nDoc);
+        });
+        db.collection("maestroDeArticulo")
+            .get()
+            .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    let documento = doc.data();
+                    documento.idMaestro = doc.id;
+                    listaMaestro.push(documento);
+                });
+                // ARMAR REPORTE
+                let listaSalidaMercancia = listaArticulos.map(art => {
+                    let maestroFiltrado = listaMaestro.filter(x => x.idMaestro == art._codigoMaestroArticulo);
+                    debugger;
+                    return `<tr id='${art.id}'>
+                    <td>${art._salidaFechaRegistroArticulo}</td>
+                    <td>${art._salidaNumeroDocumento}</td>
+                    <td>${MaestroTipoSalida.filter(x => x.correlativoSalida == art._salidaTipoSalida)[0].nombreTipoSalida}</td>
+                    <td>${maestroFiltrado[0]._laboratorio}</td>
+                    <td>${art._salidaCantidad}</td>
+                    <td><i class="trash icon" onclick="eliminarRegistro(event,'articulo')"></i><i class="edit icon" onclick="editarRegistro(event,'articulo')"></i></td>
+                    </tr>`
+                }).join("");
+                tbody.innerHTML = listaSalidaMercancia;
+            });
+
     });
 }
 function eliminarRegistro(e, coll) {
@@ -1181,7 +1282,9 @@ function cargarDatosFormularioSalidaMercancia() {
 
 }
 function getArticulos(e) {
+    debugger;
     let listaArticulos = [];
+    document.getElementById("_codigoMaestroArticulo").value = e.target.options[e.target.selectedIndex].dataset.id;
     db.collection("articulo")
         .where("_registroId", "==", e.target.options[e.target.selectedIndex].dataset.id)
         .get()
@@ -1192,7 +1295,11 @@ function getArticulos(e) {
                 listaArticulos.push(temp);
             });
             console.log(listaArticulos);
+            debugger;
+            
             modalSalida(listaArticulos);
+            
+           
         })
         .catch(function (error) {
             console.log("Error getting documents: ", error);
@@ -1218,6 +1325,7 @@ function selectArticuloSalida(e) {
     document.getElementById("_salidaCantidad").value = td[2].innerHTML;
     document.getElementById("_salidaCantidad").dataset.cantidadActual = td[2].innerHTML;
     document.getElementById("_salidaCantidad").dataset.idItem = e.target.dataset.iditem;
+    
 
     $('#_salidaCantidad')
         .popup({
@@ -1508,16 +1616,15 @@ function cargarReporteVencidos() {
                         documento.idMaestro = doc.id;
                         _maestroReporte.push(documento);
                     });
-
                     // ARMAR REPORTE
                     let vencidos = _articuloReporte.filter(x => new Date(x._fechaVencimiento) <= new Date());
                     let vencidosMaestro = vencidos.map(art =>
                         `<tr>
-                            <td>Nombre articulo</td>
-                            <td>${art._lote}</td>
-                            <td>${art._almacen}</td>
-                            <td>${art._fechaVencimiento}</td>
-                            </tr>`
+                    <td>${_maestroReporte.filter(x => x.idMaestro == art._registroId)[0]._nombreArticulo}</td>
+                    <td>${art._lote}</td>
+                    <td>${art._almacen}</td>
+                    <td>${art._fechaVencimiento}</td>
+                    </tr>`
                     ).join("")
                     tbReporteArticulosVencidos.innerHTML = vencidosMaestro;
 
@@ -1554,7 +1661,7 @@ function cargarReporteProximosVencidos() {
                     let vencidos = _articuloReporte.filter(x => (new Date(x._fechaVencimiento) <= new Date(inProximosVencer.value) && (new Date(inProximosVencer.value) >= new Date())));
                     let vencidosMaestro = vencidos.map(art =>
                         `<tr>
-                            <td>Nombre articulo</td>
+                            <td>${_maestroReporte.filter(x => x.idMaestro == art._registroId)[0]._nombreArticulo}</td>
                             <td>${art._lote}</td>
                             <td>${art._almacen}</td>
                             <td>${art._fechaVencimiento}</td>
@@ -1639,7 +1746,7 @@ function productosVencidos() {
     cuerpo.innerHTML = "";
     let maestroArticuloVencidos = [];
     let listaArticuloVencidos = [];
-    db.collection("maestroDeArticulo").get().then(function (querySnapshot) {
+    db.collection("maestroDeArticulo").orderBy('_nombreArticulo').get().then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
             let temp = doc.data();
             temp.id = doc.id;
@@ -1686,7 +1793,7 @@ function productosConStock() {
     let cuerpo = document.getElementById("bodyProdStoc");
     cuerpo.innerHTML = "";
     db.collection("maestroDeArticulo").where("_stock", ">", 0).get().then(function (querySnapshot) {
-        let temp= [];
+        let temp = [];
         querySnapshot.forEach(function (doc) {
             temp.push(`<tr scope="row" >
                 <td>${doc.data()._nombreArticulo}</td>

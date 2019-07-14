@@ -436,7 +436,7 @@
                 <div class="ui error message"></div>
             </form>
             <hr />
-            <button class="ui primary button" onclick="obtenerDatosFirebase('articulo')">VER REGISTROS</button>
+            <button class="ui primary button" onclick="listarRegistrosMercancia()">VER REGISTROS</button>
         </div>
         <div id="formAjusteMercancia" hidden>|
             <div class="ui divider"></div>
@@ -560,15 +560,14 @@
                     </div>
                     <div class="field" hidden>
                         <label>codigo maestro</label>
-                        <input type="number" name="_codigoMaestroArticulo" id="_codigoMaestroArticulo" min="0"
-                            onchange="validarSalidaCantidad(event)">
+                        <input type="text" name="_codigoMaestroArticulo" id="_codigoMaestroArticulo" min="0">
                     </div>
                 </div>
                 <div class="ui primary submit button">REGISTRAR</div>
                 <div class="ui error message"></div>
             </form>
             <hr />
-            <button class="ui primary button" onclick="obtenerDatosFirebase('salidaArticulo')">VER REGISTROS</button>
+            <button class="ui primary button" onclick="listarSalidaMercancia()">VER REGISTROS</button>
         </div>
         <div class="ui divider"></div>
         <div id="tablaContainer">
@@ -582,13 +581,13 @@
         <div id="reporteItemsVencidos" hidden>
             <h1>Reporte vencidos</h1>
 
-            <button onclick="cargarReporteVencidos()">Cargar Reporte</button>
+            <button class="ui success button" onclick="cargarReporteVencidos()">Productos vencidos</button>
             <input type="date" id="inProximosVencer">
-            <button onclick="cargarReporteProximosVencidos()">Cargar Reporte</button>
+            <button class="ui success button" onclick="cargarReporteProximosVencidos()">Productos proximos vencer en la fecha</button>
             <table class="ui table">
                 <thead>
                     <th>Nombre Articulo</th>
-                    <th>Lote</th>
+                    <th>Cantidad</th>
                     <th>Almacen</th>
                     <th>Fecha venc</th>
                 </thead>
